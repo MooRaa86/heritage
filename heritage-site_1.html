@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أثر | الحضارات الخالدة</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;600;700&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #C9A84C; --gold-light: #E8C97A; --gold-dark: #8B6914;
+  --sand: #F2E8D0; --sand-dark: #D4C49A;
+  --obsidian: #0D0A05; --stone: #1A1510; --stone-mid: #2E2518;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--obsidian);
+  color: var(--sand);
+  font-family: 'Noto Naskh Arabic', serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+html[data-lang="zh"] body { font-family: 'Noto Serif SC', serif; direction: ltr; }
+html[data-lang="zh"] { direction: ltr; }
+
+.cursor {
+  width: 18px; height: 18px;
+  border: 2px solid var(--gold); border-radius: 50%;
+  position: fixed; pointer-events: none; z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: transform 0.1s, background 0.2s;
+  mix-blend-mode: screen;
+}
+.cursor.hover { transform: translate(-50%,-50%) scale(2); background: rgba(201,168,76,0.2); }
+
+body::before {
+  content:''; position:fixed; inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events:none; z-index:9998; opacity:0.4;
+}
+
+/* ===== HEADER ===== */
+header {
+  position:fixed; top:0; left:0; right:0; z-index:200;
+  padding:1rem 2.5rem;
+  display:flex; justify-content:space-between; align-items:center;
+  background:linear-gradient(to bottom,rgba(13,10,5,0.98),rgba(13,10,5,0));
+  border-bottom:1px solid rgba(201,168,76,0.15);
+  transition: background 0.4s;
+}
+header.scrolled { background:rgba(13,10,5,0.97); }
+
+.logo { display:flex; align-items:center; gap:1rem; cursor:none; }
+.logo-emblem {
+  width:44px; height:44px; border:1.5px solid var(--gold);
+  transform:rotate(45deg); display:flex; align-items:center; justify-content:center;
+}
+.logo-emblem::before { content:'𓂀'; font-size:1.3rem; transform:rotate(-45deg); color:var(--gold); }
+.logo-text { font-family:'Amiri',serif; font-size:1.7rem; font-weight:700; color:var(--gold-light); }
+.logo-sub { font-size:0.65rem; color:var(--sand-dark); letter-spacing:0.2em; }
+
+nav { display:flex; gap:0; align-items:center; }
+.nav-link {
+  color:var(--sand-dark); text-decoration:none; font-size:0.88rem;
+  letter-spacing:0.08em; padding:0.5rem 1.2rem; cursor:none;
+  transition:color 0.3s; position:relative; white-space:nowrap;
+}
+.nav-link::after {
+  content:''; position:absolute; bottom:-2px; right:1.2rem; left:1.2rem;
+  height:1px; background:var(--gold); transform:scaleX(0); transition:transform 0.3s;
+}
+.nav-link:hover, .nav-link.active { color:var(--gold-light); }
+.nav-link:hover::after, .nav-link.active::after { transform:scaleX(1); }
+
+.header-right { display:flex; align-items:center; gap:1rem; }
+
+/* Language switcher */
+.lang-switch {
+  display:flex; border:1px solid rgba(201,168,76,0.3); overflow:hidden;
+}
+.lang-btn {
+  padding:0.35rem 0.8rem; background:transparent;
+  border:none; color:var(--sand-dark); font-size:0.8rem;
+  cursor:none; transition:all 0.3s; font-family:inherit;
+}
+.lang-btn.active { background:var(--gold); color:var(--obsidian); }
+.lang-btn:hover:not(.active) { color:var(--gold-light); background:rgba(201,168,76,0.08); }
+
+/* ===== SECTIONS ===== */
+.page-section { display:none; }
+.page-section.active { display:block; }
+
+/* ===== HERO ===== */
+.hero {
+  height:100vh; position:relative;
+  display:flex; align-items:center; justify-content:center; overflow:hidden;
+}
+.hero-bg {
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 60%,rgba(139,105,20,0.12),transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 80%,rgba(139,58,31,0.08),transparent 60%),
+    linear-gradient(to bottom,var(--obsidian),#140E08 50%,var(--obsidian));
+}
+.hero-ring {
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  width:580px; height:580px; border-radius:50%;
+  border:1px solid rgba(201,168,76,0.07);
+  animation:rotateSlow 70s linear infinite;
+}
+.hero-ring::before {
+  content:'𓂀 𓃀 𓅱 𓆣 𓇯 𓈖 𓉐 𓊪 𓋴 𓌂 𓍯 𓎼 𓏏 𓐍 𓀀 𓁿';
+  position:absolute; top:-1rem; left:50%; transform:translateX(-50%);
+  font-size:1rem; color:rgba(201,168,76,0.18);
+  letter-spacing:0.5rem; white-space:nowrap;
+}
+@keyframes rotateSlow { to { transform:translate(-50%,-50%) rotate(360deg); } }
+@keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+@keyframes shimmer { 0%,100%{opacity:0.3} 50%{opacity:1} }
+
+.hero-content { position:relative; z-index:2; text-align:center; }
+.hero-eyebrow { font-size:0.78rem; letter-spacing:0.4em; color:var(--gold); margin-bottom:1.5rem; opacity:0; animation:fadeUp 1s 0.3s forwards; }
+.hero-title { font-family:'Amiri',serif; font-size:clamp(3rem,7vw,6.5rem); font-weight:700; line-height:1.1; color:var(--sand); text-shadow:0 0 80px rgba(201,168,76,0.3); opacity:0; animation:fadeUp 1s 0.5s forwards; margin-bottom:1rem; }
+.hero-title span { color:var(--gold-light); display:block; }
+.hero-divider { width:100px; height:1px; background:linear-gradient(90deg,transparent,var(--gold),transparent); margin:1.5rem auto; opacity:0; animation:fadeUp 1s 0.7s forwards; }
+.hero-desc { font-size:1.05rem; color:var(--sand-dark); max-width:480px; margin:0 auto 2.5rem; line-height:1.9; opacity:0; animation:fadeUp 1s 0.9s forwards; }
+.hero-cta {
+  display:inline-flex; align-items:center; gap:0.8rem;
+  padding:0.9rem 2.2rem; border:1px solid var(--gold);
+  color:var(--gold-light); text-decoration:none; font-size:0.9rem;
+  letter-spacing:0.15em; transition:all 0.4s; cursor:none;
+  opacity:0; animation:fadeUp 1s 1.1s forwards;
+}
+.hero-cta:hover { background:var(--gold); color:var(--obsidian); box-shadow:0 0 40px rgba(201,168,76,0.25); }
+.hieroglyph-band { position:absolute; bottom:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent); animation:shimmer 3s infinite; }
+.corner-glyph { position:absolute; font-size:2.5rem; color:rgba(201,168,76,0.05); }
+.corner-glyph.tr { top:7rem; left:3rem; }
+.corner-glyph.bl { bottom:3rem; right:3rem; }
+
+/* ===== SECTION HEADER ===== */
+.section-header { text-align:center; padding:5rem 2rem 2.5rem; }
+.section-label { font-size:0.72rem; letter-spacing:0.4em; color:var(--gold); text-transform:uppercase; margin-bottom:1rem; }
+.section-title { font-family:'Amiri',serif; font-size:clamp(2rem,4vw,3.2rem); color:var(--sand); }
+.ornament { display:flex; align-items:center; justify-content:center; gap:1rem; margin:1rem 0 0; }
+.orn-line { width:70px; height:1px; }
+.orn-line.l { background:linear-gradient(90deg,transparent,var(--gold)); }
+.orn-line.r { background:linear-gradient(90deg,var(--gold),transparent); }
+.orn-sym { color:var(--gold); }
+
+/* ===== GRID ===== */
+.sites-wrap { padding:2rem 3.5rem 6rem; max-width:1440px; margin:0 auto; }
+.filter-bar { display:flex; gap:0.8rem; justify-content:center; margin-bottom:3rem; flex-wrap:wrap; }
+.filter-btn {
+  padding:0.45rem 1.3rem; border:1px solid rgba(201,168,76,0.25);
+  background:transparent; color:var(--sand-dark); font-family:inherit;
+  font-size:0.82rem; letter-spacing:0.08em; cursor:none; transition:all 0.3s;
+}
+.filter-btn.active, .filter-btn:hover { border-color:var(--gold); color:var(--gold-light); background:rgba(201,168,76,0.05); }
+
+.sites-grid {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  grid-template-rows:auto;
+  gap:1.2rem;
+}
+.site-card {
+  position:relative; overflow:hidden; cursor:none;
+  background:var(--stone); border:1px solid rgba(201,168,76,0.1);
+  transition:border-color 0.4s, transform 0.4s;
+  aspect-ratio:3/4;
+}
+.site-card.wide { grid-column:span 2; aspect-ratio:16/9; }
+.site-card.tall { grid-row:span 2; aspect-ratio:auto; }
+.site-card:hover { border-color:rgba(201,168,76,0.5); transform:translateY(-4px); }
+
+.card-img { width:100%; height:100%; object-fit:cover; transition:transform 0.7s,filter 0.5s; filter:sepia(30%) brightness(0.75); }
+.site-card:hover .card-img { transform:scale(1.06); filter:sepia(10%) brightness(0.9); }
+.card-overlay {
+  position:absolute; inset:0;
+  background:linear-gradient(to top,rgba(13,10,5,0.96) 0%,rgba(13,10,5,0.45) 40%,transparent 75%);
+  transition:background 0.4s;
+}
+.site-card:hover .card-overlay { background:linear-gradient(to top,rgba(13,10,5,0.98) 0%,rgba(13,10,5,0.6) 50%,rgba(13,10,5,0.15) 80%,transparent 100%); }
+.card-glyph { position:absolute; top:1rem; right:1rem; font-size:1.8rem; color:rgba(201,168,76,0.45); }
+.card-arrow { position:absolute; top:1rem; left:1rem; width:32px; height:32px; border:1px solid rgba(201,168,76,0.4); display:flex; align-items:center; justify-content:center; color:var(--gold); font-size:1rem; opacity:0; transition:opacity 0.3s; background:rgba(13,10,5,0.6); }
+.site-card:hover .card-arrow { opacity:1; }
+.card-content { position:absolute; bottom:0; left:0; right:0; padding:1.5rem; }
+.card-era { display:inline-block; font-size:0.65rem; letter-spacing:0.2em; color:var(--gold); border:1px solid rgba(201,168,76,0.3); padding:0.15rem 0.6rem; margin-bottom:0.6rem; background:rgba(201,168,76,0.05); }
+.card-title { font-family:'Amiri',serif; font-size:1.35rem; color:var(--sand); margin-bottom:0.4rem; line-height:1.2; }
+.site-card.wide .card-title { font-size:1.8rem; }
+.card-loc { font-size:0.75rem; color:var(--sand-dark); letter-spacing:0.1em; }
+.card-meta { display:flex; gap:1.2rem; margin-top:0.8rem; opacity:0; transform:translateY(8px); transition:all 0.4s; }
+.site-card:hover .card-meta { opacity:1; transform:translateY(0); }
+.meta-v { font-size:0.8rem; color:var(--gold-light); font-weight:600; }
+.meta-l { font-size:0.62rem; color:var(--sand-dark); letter-spacing:0.08em; }
+.card-cat { position:absolute; top:1rem; right:3.5rem; font-size:0.62rem; letter-spacing:0.15em; background:rgba(13,10,5,0.7); color:var(--gold-dark); padding:0.2rem 0.6rem; border:1px solid rgba(201,168,76,0.2); }
+
+/* ===== DETAIL OVERLAY ===== */
+.detail-overlay { position:fixed; inset:0; background:var(--obsidian); z-index:500; overflow-y:auto; opacity:0; pointer-events:none; transition:opacity 0.5s; }
+.detail-overlay.active { opacity:1; pointer-events:all; }
+.detail-close { position:fixed; top:1.2rem; left:1.5rem; z-index:600; width:44px; height:44px; border:1px solid rgba(201,168,76,0.5); background:rgba(13,10,5,0.85); color:var(--gold-light); font-size:1.2rem; display:flex; align-items:center; justify-content:center; cursor:none; transition:all 0.3s; }
+.detail-close:hover { background:var(--gold); color:var(--obsidian); }
+.detail-hero { height:65vh; position:relative; overflow:hidden; }
+.detail-hero-img { width:100%; height:100%; object-fit:cover; filter:sepia(20%) brightness(0.72); }
+.detail-hero-overlay { position:absolute; inset:0; background:linear-gradient(to bottom,rgba(13,10,5,0.35),rgba(13,10,5,0.15) 40%,rgba(13,10,5,0.88) 80%,var(--obsidian)); }
+.detail-hero-content { position:absolute; bottom:2.5rem; right:3.5rem; left:3.5rem; }
+.detail-era-tag { display:inline-block; font-size:0.72rem; letter-spacing:0.3em; color:var(--gold); border:1px solid rgba(201,168,76,0.4); padding:0.25rem 0.9rem; margin-bottom:0.8rem; background:rgba(13,10,5,0.5); }
+.detail-title { font-family:'Amiri',serif; font-size:clamp(2.2rem,5vw,4rem); color:var(--sand); text-shadow:0 2px 20px rgba(0,0,0,0.8); }
+.detail-body { max-width:1200px; margin:0 auto; padding:3.5rem; }
+.detail-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(201,168,76,0.12); margin-bottom:3.5rem; border:1px solid rgba(201,168,76,0.12); }
+.stat-box { padding:1.5rem; background:var(--stone); text-align:center; }
+.stat-icon { font-size:1.4rem; margin-bottom:0.4rem; display:block; }
+.stat-value { font-family:'Amiri',serif; font-size:1.6rem; color:var(--gold-light); display:block; margin-bottom:0.2rem; }
+.stat-label { font-size:0.7rem; color:var(--sand-dark); letter-spacing:0.18em; }
+.detail-grid { display:grid; grid-template-columns:1.1fr 0.9fr; gap:3.5rem; margin-bottom:3.5rem; }
+.detail-description h3, .detail-sidebar h3 { font-family:'Amiri',serif; font-size:1.5rem; color:var(--gold-light); margin-bottom:1rem; padding-bottom:0.7rem; border-bottom:1px solid rgba(201,168,76,0.18); }
+.detail-description p { font-size:0.97rem; color:var(--sand-dark); line-height:2; margin-bottom:1.1rem; }
+.detail-facts { list-style:none; margin-top:1.2rem; }
+.detail-facts li { display:flex; align-items:flex-start; gap:0.7rem; padding:0.7rem 0; border-bottom:1px solid rgba(201,168,76,0.07); font-size:0.88rem; color:var(--sand-dark); }
+.detail-facts li::before { content:'◈'; color:var(--gold); flex-shrink:0; }
+.quote-block { margin:2rem 0; padding:1.8rem 2.5rem; border-right:3px solid var(--gold); background:linear-gradient(135deg,rgba(26,21,16,0.8),rgba(46,37,24,0.3)); position:relative; }
+.quote-block::before { content:'❝'; position:absolute; top:-0.8rem; right:1.5rem; font-size:2.5rem; color:rgba(201,168,76,0.25); font-family:serif; }
+.quote-text { font-family:'Amiri',serif; font-size:1.1rem; color:var(--sand); line-height:1.8; font-style:italic; }
+.quote-source { font-size:0.75rem; color:var(--gold-dark); margin-top:0.6rem; letter-spacing:0.12em; }
+.info-table { width:100%; border-collapse:collapse; }
+.info-table tr { border-bottom:1px solid rgba(201,168,76,0.07); }
+.info-table td { padding:0.75rem 0; font-size:0.87rem; vertical-align:top; }
+.info-table td:first-child { color:var(--gold); width:38%; font-size:0.78rem; letter-spacing:0.1em; }
+.info-table td:last-child { color:var(--sand-dark); }
+.timeline-section { margin-top:2rem; }
+.timeline-item { display:flex; gap:1.2rem; padding-bottom:1.3rem; position:relative; }
+.timeline-item::before { content:''; position:absolute; right:0.55rem; top:1.2rem; bottom:0; width:1px; background:rgba(201,168,76,0.18); }
+.timeline-dot { width:12px; height:12px; border:2px solid var(--gold); border-radius:50%; flex-shrink:0; margin-top:0.25rem; background:var(--obsidian); position:relative; z-index:1; }
+.timeline-year { font-size:0.72rem; color:var(--gold); letter-spacing:0.1em; margin-bottom:0.25rem; }
+.timeline-event { font-size:0.83rem; color:var(--sand-dark); line-height:1.6; }
+.detail-gallery { display:grid; grid-template-columns:repeat(3,1fr); gap:0.7rem; margin-bottom:3.5rem; }
+.gallery-img { width:100%; aspect-ratio:4/3; object-fit:cover; filter:sepia(20%) brightness(0.82); transition:all 0.4s; cursor:none; }
+.gallery-img:hover { filter:sepia(0%) brightness(1); transform:scale(0.98); }
+.gallery-title { font-family:'Amiri',serif; font-size:1.5rem; color:var(--gold-light); margin-bottom:1rem; padding-bottom:0.7rem; border-bottom:1px solid rgba(201,168,76,0.18); }
+
+/* ===== CIVILIZATIONS PAGE ===== */
+.civs-wrap { padding:2rem 3.5rem 6rem; max-width:1440px; margin:0 auto; }
+.civ-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
+.civ-card {
+  background:var(--stone); border:1px solid rgba(201,168,76,0.12);
+  padding:2.5rem; position:relative; overflow:hidden;
+  transition:border-color 0.4s, transform 0.4s; cursor:none;
+}
+.civ-card:hover { border-color:rgba(201,168,76,0.45); transform:translateY(-4px); }
+.civ-card::before { content:''; position:absolute; top:0; right:0; width:120px; height:120px; background:radial-gradient(circle,rgba(201,168,76,0.06),transparent 70%); }
+.civ-glyph { font-size:3rem; margin-bottom:1.2rem; display:block; }
+.civ-name { font-family:'Amiri',serif; font-size:1.8rem; color:var(--gold-light); margin-bottom:0.5rem; }
+.civ-era { font-size:0.72rem; letter-spacing:0.2em; color:var(--gold-dark); margin-bottom:1rem; }
+.civ-desc { font-size:0.88rem; color:var(--sand-dark); line-height:1.9; }
+.civ-sites { display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:1.2rem; }
+.civ-site-tag { font-size:0.7rem; padding:0.2rem 0.7rem; border:1px solid rgba(201,168,76,0.25); color:var(--gold-dark); letter-spacing:0.1em; }
+.civ-bar { position:absolute; bottom:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--gold-dark),var(--gold),transparent); opacity:0; transition:opacity 0.4s; }
+.civ-card:hover .civ-bar { opacity:1; }
+
+/* ===== MUSEUMS PAGE ===== */
+.museums-wrap { padding:2rem 3.5rem 6rem; max-width:1440px; margin:0 auto; }
+.museum-list { display:grid; grid-template-columns:repeat(2,1fr); gap:1.5rem; }
+.museum-card {
+  display:flex; gap:1.5rem; background:var(--stone);
+  border:1px solid rgba(201,168,76,0.1); padding:1.8rem;
+  transition:border-color 0.4s; cursor:none;
+}
+.museum-card:hover { border-color:rgba(201,168,76,0.4); }
+.museum-num { font-family:'Amiri',serif; font-size:2.5rem; color:rgba(201,168,76,0.2); flex-shrink:0; line-height:1; }
+.museum-info { flex:1; }
+.museum-name { font-family:'Amiri',serif; font-size:1.3rem; color:var(--gold-light); margin-bottom:0.3rem; }
+.museum-loc { font-size:0.72rem; color:var(--gold-dark); letter-spacing:0.15em; margin-bottom:0.7rem; }
+.museum-desc { font-size:0.85rem; color:var(--sand-dark); line-height:1.8; }
+.museum-tag { display:inline-block; font-size:0.65rem; padding:0.15rem 0.6rem; border:1px solid rgba(201,168,76,0.2); color:var(--gold-dark); margin-top:0.7rem; margin-left:0.4rem; }
+
+/* ===== ABOUT PAGE ===== */
+.about-wrap { padding:2rem 3.5rem 6rem; max-width:1000px; margin:0 auto; }
+.about-hero-text { text-align:center; margin-bottom:4rem; }
+.about-big { font-family:'Amiri',serif; font-size:clamp(2rem,4vw,3rem); color:var(--sand); line-height:1.4; margin-bottom:1.5rem; }
+.about-sub { font-size:1rem; color:var(--sand-dark); line-height:2; max-width:650px; margin:0 auto; }
+.about-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-bottom:4rem; }
+.about-box { background:var(--stone); border:1px solid rgba(201,168,76,0.12); padding:2rem; text-align:center; }
+.about-box-icon { font-size:2rem; margin-bottom:1rem; display:block; }
+.about-box-title { font-family:'Amiri',serif; font-size:1.2rem; color:var(--gold-light); margin-bottom:0.5rem; }
+.about-box-text { font-size:0.83rem; color:var(--sand-dark); line-height:1.8; }
+.about-mission { background:var(--stone); border:1px solid rgba(201,168,76,0.15); padding:2.5rem 3rem; margin-bottom:3rem; }
+.about-mission h3 { font-family:'Amiri',serif; font-size:1.5rem; color:var(--gold-light); margin-bottom:1rem; }
+.about-mission p { font-size:0.92rem; color:var(--sand-dark); line-height:2; }
+.about-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(201,168,76,0.15); }
+.about-stat { background:var(--stone); padding:2rem; text-align:center; }
+.about-stat-v { font-family:'Amiri',serif; font-size:2.2rem; color:var(--gold-light); display:block; }
+.about-stat-l { font-size:0.72rem; color:var(--sand-dark); letter-spacing:0.15em; }
+
+/* ===== FOOTER ===== */
+footer { border-top:1px solid rgba(201,168,76,0.12); padding:2.5rem 3.5rem; display:flex; justify-content:space-between; align-items:center; background:var(--stone); }
+.footer-glyph { font-size:1.3rem; color:rgba(201,168,76,0.12); letter-spacing:0.8rem; }
+.footer-copy { font-size:0.75rem; color:rgba(212,196,154,0.35); letter-spacing:0.1em; }
+
+/* ===== FADE IN ===== */
+.fade-in { opacity:0; transform:translateY(18px); transition:opacity 0.8s,transform 0.8s; }
+.fade-in.visible { opacity:1; transform:translateY(0); }
+
+::-webkit-scrollbar { width:3px; }
+::-webkit-scrollbar-track { background:var(--obsidian); }
+::-webkit-scrollbar-thumb { background:var(--gold-dark); }
+
+@media(max-width:1100px) {
+  .sites-grid { grid-template-columns:repeat(3,1fr); }
+}
+@media(max-width:780px) {
+  .sites-grid { grid-template-columns:1fr 1fr; }
+  .site-card.wide { grid-column:span 2; aspect-ratio:16/9; }
+  .site-card.tall { grid-row:span 1; aspect-ratio:3/4; }
+  .detail-grid { grid-template-columns:1fr; gap:2rem; }
+  .detail-stats { grid-template-columns:1fr 1fr; }
+  .detail-body { padding:2rem 1.2rem; }
+  .detail-hero-content { right:1.2rem; left:1.2rem; bottom:1.5rem; }
+  .detail-title { font-size:2rem; }
+  .detail-gallery { grid-template-columns:1fr 1fr; }
+  .sites-wrap,.civs-wrap,.museums-wrap,.about-wrap { padding:1.2rem 1rem 4rem; }
+  header { padding:0.8rem 1rem; }
+  nav { gap:0; }
+  .nav-link { padding:0.35rem 0.55rem; font-size:0.75rem; letter-spacing:0; }
+  .logo-text { font-size:1.3rem; }
+  .logo-emblem { width:36px; height:36px; }
+  .civ-cards,.about-grid { grid-template-columns:1fr; }
+  .museum-list { grid-template-columns:1fr; }
+  .about-stats { grid-template-columns:1fr 1fr; }
+  .hero-title { font-size:clamp(2.2rem,10vw,4rem); }
+  .hero-desc { font-size:0.92rem; padding:0 1rem; }
+  .section-title { font-size:clamp(1.6rem,5vw,2.5rem); }
+  footer { flex-direction:column; gap:1rem; text-align:center; padding:1.5rem; }
+  .footer-glyph { letter-spacing:0.4rem; }
+  .lang-switch { margin-top:0; }
+}
+@media(max-width:480px) {
+  .sites-grid { grid-template-columns:1fr; }
+  .site-card.wide { grid-column:span 1; aspect-ratio:4/3; }
+  .filter-bar { gap:0.4rem; }
+  .filter-btn { padding:0.35rem 0.8rem; font-size:0.75rem; }
+  .detail-stats { grid-template-columns:1fr 1fr; }
+  .stat-value { font-size:1.2rem; }
+  nav { display:none; }
+  .about-stats { grid-template-columns:1fr 1fr; }
+  .detail-gallery { grid-template-columns:1fr; }
+  .museum-card { flex-direction:column; }
+}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+
+<header id="mainHeader">
+  <div class="logo" onclick="showSection('home')">
+    <div class="logo-emblem"></div>
+    <div>
+      <div class="logo-text" id="logo-text">أثـر</div>
+      <div class="logo-sub" data-ar="حضارات خالدة" data-zh="永恒的文明" id="logo-sub">حضارات خالدة</div>
+    </div>
+  </div>
+  <nav>
+    <a class="nav-link active" onclick="showSection('home')" data-ar="المواقع الأثرية" data-zh="考古遗址">المواقع الأثرية</a>
+    <a class="nav-link" onclick="showSection('civs')" data-ar="الحضارات" data-zh="文明">الحضارات</a>
+    <a class="nav-link" onclick="showSection('museums')" data-ar="المتاحف" data-zh="博物馆">المتاحف</a>
+    <a class="nav-link" onclick="showSection('about')" data-ar="عن الموقع" data-zh="关于我们">عن الموقع</a>
+  </nav>
+  <div class="header-right">
+    <div class="lang-switch">
+      <button class="lang-btn active" onclick="setLang('ar')">عربي</button>
+      <button class="lang-btn" onclick="setLang('zh')">中文</button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== HOME SECTION ===== -->
+<div class="page-section active" id="sec-home">
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-ring"></div>
+    <span class="corner-glyph tr">𓂀</span>
+    <span class="corner-glyph bl">𓅱</span>
+    <div class="hero-content">
+      <p class="hero-eyebrow" data-ar="𓂀  اكتشف إرث الحضارات  𓂀" data-zh="𓂀  探索文明的遗产  𓂀">𓂀  اكتشف إرث الحضارات  𓂀</p>
+      <h1 class="hero-title">
+        <span id="hero-t1" data-ar="الحضارات الخالدة" data-zh="永恒的文明">الحضارات الخالدة</span>
+        <span id="hero-t2" style="font-size:0.65em;color:var(--gold-light)" data-ar="تحكي قصتها" data-zh="讲述它们的故事">تحكي قصتها</span>
+      </h1>
+      <div class="hero-divider"></div>
+      <p class="hero-desc" data-ar="رحلة عبر آلاف السنين لاستكشاف أعظم المواقع الأثرية التي شكّلت تاريخ الإنسانية" data-zh="穿越数千年的旅程，探索塑造人类历史的最伟大考古遗址">رحلة عبر آلاف السنين لاستكشاف أعظم المواقع الأثرية التي شكّلت تاريخ الإنسانية</p>
+      <a href="#sites" class="hero-cta" id="hero-cta" data-ar="استكشف المواقع  ↓" data-zh="探索遗址  ↓">استكشف المواقع  ↓</a>
+    </div>
+    <div class="hieroglyph-band"></div>
+  </section>
+
+  <section id="sites">
+    <div class="section-header fade-in">
+      <p class="section-label" data-ar="𓂀  المواقع الأثرية" data-zh="𓂀  考古遗址">𓂀  المواقع الأثرية</p>
+      <h2 class="section-title" data-ar="كنوز عبر الزمن" data-zh="跨越时间的宝藏">كنوز عبر الزمن</h2>
+      <div class="ornament"><div class="orn-line r"></div><span class="orn-sym">◆</span><div class="orn-line l"></div></div>
+    </div>
+    <div class="sites-wrap">
+      <div class="filter-bar fade-in" id="filterBar">
+        <button class="filter-btn active" data-filter="all" data-ar="الكل" data-zh="全部">الكل</button>
+        <button class="filter-btn" data-filter="egypt" data-ar="مصر القديمة" data-zh="古埃及">مصر القديمة</button>
+        <button class="filter-btn" data-filter="mesopotamia" data-ar="بلاد الرافدين" data-zh="美索不达米亚">بلاد الرافدين</button>
+        <button class="filter-btn" data-filter="greco" data-ar="اليونان والرومان" data-zh="希腊与罗马">اليونان والرومان</button>
+        <button class="filter-btn" data-filter="islamic" data-ar="الحضارة الإسلامية" data-zh="伊斯兰文明">الحضارة الإسلامية</button>
+        <button class="filter-btn" data-filter="asia" data-ar="آسيا" data-zh="亚洲">آسيا</button>
+        <button class="filter-btn" data-filter="americas" data-ar="الأمريكتان" data-zh="美洲">الأمريكتان</button>
+      </div>
+      <div class="sites-grid fade-in" id="sitesGrid"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ===== CIVILIZATIONS SECTION ===== -->
+<div class="page-section" id="sec-civs">
+  <div style="height:80px"></div>
+  <div class="section-header fade-in">
+    <p class="section-label" data-ar="𓇯  عبر العصور" data-zh="𓇯  穿越时代">𓇯  عبر العصور</p>
+    <h2 class="section-title" data-ar="الحضارات العظيمة" data-zh="伟大的文明">الحضارات العظيمة</h2>
+    <div class="ornament"><div class="orn-line r"></div><span class="orn-sym">◆</span><div class="orn-line l"></div></div>
+  </div>
+  <div class="civs-wrap">
+    <div class="civ-cards fade-in" id="civCards"></div>
+  </div>
+</div>
+
+<!-- ===== MUSEUMS SECTION ===== -->
+<div class="page-section" id="sec-museums">
+  <div style="height:80px"></div>
+  <div class="section-header fade-in">
+    <p class="section-label" data-ar="𓏏  صون التراث" data-zh="𓏏  遗产保护">𓏏  صون التراث</p>
+    <h2 class="section-title" data-ar="أعظم المتاحف الأثرية" data-zh="最伟大的考古博物馆">أعظم المتاحف الأثرية</h2>
+    <div class="ornament"><div class="orn-line r"></div><span class="orn-sym">◆</span><div class="orn-line l"></div></div>
+  </div>
+  <div class="museums-wrap">
+    <div class="museum-list fade-in" id="museumList"></div>
+  </div>
+</div>
+
+<!-- ===== ABOUT SECTION ===== -->
+<div class="page-section" id="sec-about">
+  <div style="height:80px"></div>
+  <div class="about-wrap">
+    <div class="about-hero-text fade-in">
+      <h2 class="about-big" data-ar="نحن نؤمن أن التاريخ ليس ماضياً — بل هو حوار حيّ مع الحاضر" data-zh="我们相信历史不是过去——而是与现在的鲜活对话">نحن نؤمن أن التاريخ ليس ماضياً — بل هو حوار حيّ مع الحاضر</h2>
+      <p class="about-sub" data-ar="منصة أثر هي بوابتك الرقمية للاستكشاف والتعلم والتواصل مع إرث الحضارات الإنسانية العظيمة عبر العصور" data-zh="Athar平台是您探索、学习和连接人类伟大文明遗产的数字门户">منصة أثر هي بوابتك الرقمية للاستكشاف والتعلم والتواصل مع إرث الحضارات الإنسانية العظيمة عبر العصور</p>
+    </div>
+    <div class="about-grid fade-in">
+      <div class="about-box">
+        <span class="about-box-icon">🏛</span>
+        <div class="about-box-title" data-ar="توثيق دقيق" data-zh="精确记录">توثيق دقيق</div>
+        <p class="about-box-text" data-ar="نوثّق كل موقع بمعلومات تاريخية دقيقة مراجعة من متخصصين في الآثار والتاريخ" data-zh="我们用经考古和历史专家审核的准确历史信息记录每个遗址">نوثّق كل موقع بمعلومات تاريخية دقيقة مراجعة من متخصصين في الآثار والتاريخ</p>
+      </div>
+      <div class="about-box">
+        <span class="about-box-icon">🌍</span>
+        <div class="about-box-title" data-ar="تغطية عالمية" data-zh="全球覆盖">تغطية عالمية</div>
+        <p class="about-box-text" data-ar="نغطي مواقع أثرية من جميع أنحاء العالم، من مصر إلى الصين، ومن روما إلى المايا" data-zh="我们涵盖全球各地的考古遗址，从埃及到中国，从罗马到玛雅">نغطي مواقع أثرية من جميع أنحاء العالم، من مصر إلى الصين، ومن روما إلى المايا</p>
+      </div>
+      <div class="about-box">
+        <span class="about-box-icon">🌐</span>
+        <div class="about-box-title" data-ar="متعدد اللغات" data-zh="多语言">متعدد اللغات</div>
+        <p class="about-box-text" data-ar="نقدم محتوانا باللغتين العربية والصينية لخدمة أوسع شريحة من المهتمين بالتراث" data-zh="我们以阿拉伯语和中文提供内容，服务更广泛的遗产爱好者">نقدم محتوانا باللغتين العربية والصينية لخدمة أوسع شريحة من المهتمين بالتراث</p>
+      </div>
+    </div>
+    <div class="about-mission fade-in">
+      <h3 data-ar="رسالتنا" data-zh="我们的使命">رسالتنا</h3>
+      <p data-ar="تأسست منصة أثر بهدف جعل التراث الإنساني في متناول الجميع. نؤمن أن فهم الحضارات السابقة يُغني حياتنا الحاضرة ويُرشد مستقبلنا. لذا نسعى إلى تقديم محتوى أثري رصين، موثوق، وجذاب بصرياً، يُلهم الأجيال القادمة على التواصل مع جذورهم الإنسانية المشتركة." data-zh="Athar平台的成立旨在让人类遗产触手可及。我们相信理解过去的文明能丰富我们的现在，引领我们的未来。因此，我们致力于提供严谨、可靠、视觉上引人入胜的考古内容，激励后代与共同的人类根源相连。">تأسست منصة أثر بهدف جعل التراث الإنساني في متناول الجميع. نؤمن أن فهم الحضارات السابقة يُغني حياتنا الحاضرة ويُرشد مستقبلنا. لذا نسعى إلى تقديم محتوى أثري رصين، موثوق، وجذاب بصرياً، يُلهم الأجيال القادمة على التواصل مع جذورهم الإنسانية المشتركة.</p>
+    </div>
+    <div class="about-stats fade-in">
+      <div class="about-stat"><span class="about-stat-v">12+</span><span class="about-stat-l" data-ar="موقع أثري" data-zh="考古遗址">موقع أثري</span></div>
+      <div class="about-stat"><span class="about-stat-v">6</span><span class="about-stat-l" data-ar="حضارات موثقة" data-zh="记录文明">حضارات موثقة</span></div>
+      <div class="about-stat"><span class="about-stat-v">2</span><span class="about-stat-l" data-ar="لغات مدعومة" data-zh="支持语言">لغات مدعومة</span></div>
+      <div class="about-stat"><span class="about-stat-v">∞</span><span class="about-stat-l" data-ar="سنوات من التاريخ" data-zh="历史年份">سنوات من التاريخ</span></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-copy" id="footer-left">© 2024 أثر — جميع الحقوق محفوظة</div>
+  <div class="footer-glyph">𓂀 𓃀 𓅱 𓆣 𓇯</div>
+  <div class="footer-copy" id="footer-right" data-ar="صُنع بشغف للحضارة" data-zh="为文明而生">صُنع بشغف للحضارة</div>
+</footer>
+
+<!-- DETAIL OVERLAY -->
+<div class="detail-overlay" id="detailOverlay">
+  <button class="detail-close" onclick="closeDetail()">✕</button>
+  <div id="detailContent"></div>
+</div>
+
+<script>
+// ===== DATA =====
+const T = {
+  ar: {
+    historical: 'نبذة تاريخية', amazing: 'حقائق مذهلة',
+    gallery: 'معرض الصور', siteInfo: 'معلومات الموقع', timeline: 'الخط الزمني',
+    copyright: '© 2024 أثر — جميع الحقوق محفوظة',
+    logoText: 'أثـر'
+  },
+  zh: {
+    historical: '历史简介', amazing: '惊人事实',
+    gallery: '图片画廊', siteInfo: '遗址信息', timeline: '时间线',
+    copyright: '© 2024 Athar — 版权所有',
+    logoText: '遗 迹'
+  }
+};
+let currentLang = 'ar';
+
+const sites = [
+  {
+    id:'giza', cat:'egypt', wide:true,
+    glyph:'𓇯', catLabel:{ar:'مصر القديمة',zh:'古埃及'},
+    era:{ar:'الأسرة الرابعة — 2560 ق.م',zh:'第四王朝 — 公元前2560年'},
+    title:{ar:'أهرامات الجيزة',zh:'吉萨金字塔'},
+    loc:{ar:'الجيزة، مصر',zh:'吉萨，埃及'},
+    meta:[{v:{ar:'146م',zh:'146米'},l:{ar:'الارتفاع',zh:'高度'}},{v:{ar:'4600',zh:'4600'},l:{ar:'سنة',zh:'年历史'}}],
+    heroImg:'https://images.unsplash.com/photo-1539768942893-daf53e448371?w=1600&q=90',
+    stats:[{icon:'⛰',v:{ar:'146م',zh:'146米'},l:{ar:'الارتفاع الأصلي',zh:'原始高度'}},{icon:'🏛',v:{ar:'4600',zh:'4600'},l:{ar:'سنة من التاريخ',zh:'年历史'}},{icon:'🪨',v:{ar:'2.3 مليون',zh:'230万'},l:{ar:'كتلة حجرية',zh:'石块'}},{icon:'🌍',v:'UNESCO',l:{ar:'تراث عالمي',zh:'世界遗产'}}],
+    desc:{ar:`تُعدّ أهرامات الجيزة من أعظم ما أنجزته يد الإنسان على مرّ التاريخ، وأحد عجائب الدنيا السبع الوحيد الباقي حتى يومنا. شُيّدت على الضفة الغربية لنهر النيل في الفترة الممتدة بين عامَي 2560 و2540 قبل الميلاد.\n\nيُعتقد أن هرم خوفو الأكبر استغرق بناؤه قرابة عشرين عاماً، وشارك في تشييده ما يزيد على مئة ألف عامل. أما الأبو الهول العملاق فيرقد حارساً هذا المجمع الأثري الفريد عبر الآلاف من السنين.`,zh:`吉萨金字塔群是人类历史上最伟大的建筑成就之一，也是七大奇迹中唯一保存至今的。它们建于公元前2560年至2540年间，坐落于尼罗河西岸。\n\n据信，胡夫大金字塔历时约二十年建成，动用了超过十万名工人。而巨大的狮身人面像则静静地守护着这一独特的考古遗址，已有数千年之久。`},
+    quote:{ar:'كل شيء يهاب الزمن، والزمن يهاب الأهرام',zh:'万物惧怕时间，而时间惧怕金字塔'},
+    quoteSrc:{ar:'— مثل عربي قديم',zh:'— 古老的阿拉伯谚语'},
+    facts:{ar:['بُني من 2.3 مليون كتلة حجرية يتراوح وزنها بين طنين و70 طناً','كان مُكسوّاً بالأحجار الجيرية البيضاء التي تعكس ضوء الشمس','ينحرف محور الهرم عن الشمال الحقيقي بـ 3/60 درجة فقط','الغرف الداخلية تخفي ممرات سرية لا يزال بعضها طيّ الكتمان','نُحت تمثال الأبو الهول من صخرة واحدة بالكامل'],zh:['由230万块石头建成，每块重2至70吨','曾覆盖着能反射阳光的白色石灰石','金字塔轴线偏离真北仅3/60度','内部房间隐藏着秘密通道，其中一些至今仍是谜','狮身人面像完整地从一块岩石中雕刻而成']},
+    info:{ar:[['الموقع','هضبة الجيزة، مصر'],['المنشئ','الملك خوفو'],['تاريخ البناء','2560–2530 ق.م'],['التسجيل','يونسكو 1979'],['أوقات الزيارة','8ص — 5م'],['التصنيف','عجيبة الدنيا الباقية']],zh:[['位置','埃及吉萨高原'],['建造者','法老胡夫'],['建造时间','公元前2560–2530年'],['列入','联合国教科文组织1979年'],['参观时间','上午8时至下午5时'],['分类','现存的世界奇迹']]},
+    timeline:{ar:[{y:'2560 ق.م',e:'البدء في بناء هرم خوفو'},{y:'2532 ق.م',e:'اكتمال مجمع الجيزة بأبو الهول'},{y:'450 ق.م',e:'زيارة هيرودوت وتوثيقه الأهرام'},{y:'1798 م',e:'وصول حملة نابليون'},{y:'1979 م',e:'إدراجها في قائمة يونسكو'}],zh:[{y:'公元前2560年',e:'开始建造胡夫金字塔'},{y:'公元前2532年',e:'吉萨综合体与狮身人面像竣工'},{y:'公元前450年',e:'希罗多德访问并记录金字塔'},{y:'1798年',e:'拿破仑远征队抵达'},{y:'1979年',e:'列入联合国教科文组织名录'}]},
+    gallery:['https://images.unsplash.com/photo-1527490087278-9c75be0b8052?w=600&q=80','https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?w=600&q=80','https://images.unsplash.com/photo-1572252009286-268acec5ca0a?w=600&q=80']
+  },
+  {
+    id:'petra', cat:'islamic',
+    glyph:'𓈖', catLabel:{ar:'الأنباط',zh:'纳巴泰'},
+    era:{ar:'الأنباط — 300 ق.م',zh:'纳巴泰 — 公元前300年'},
+    title:{ar:'مدينة البتراء',zh:'佩特拉古城'},
+    loc:{ar:'معان، الأردن',zh:'马安，约旦'},
+    meta:[{v:'UNESCO',l:{ar:'تراث',zh:'遗产'}},{v:{ar:'264كم²',zh:'264平方公里'},l:{ar:'المساحة',zh:'面积'}}],
+    heroImg:'https://images.unsplash.com/photo-1579606032821-4e6161c81bd3?w=1600&q=90',
+    stats:[{icon:'🌹',v:{ar:'الوردية',zh:'玫瑰红色'},l:{ar:'لقبها',zh:'别称'}},{icon:'📐',v:{ar:'264كم²',zh:'264km²'},l:{ar:'المساحة',zh:'面积'}},{icon:'🏛',v:{ar:'2300+',zh:'2300+'},l:{ar:'سنة',zh:'年历史'}},{icon:'🌍',v:'UNESCO',l:{ar:'تراث عالمي',zh:'世界遗产'}}],
+    desc:{ar:`تقع البتراء في جنوب الأردن وسط منطقة جبلية وعرة، وكانت عاصمةً للمملكة النبطية الزاهرة. نُحتت مبانيها الفريدة في الصخور الرملية الوردية، مما أكسبها لقب "المدينة الوردية".\n\nيمر الزائر إلى المدينة عبر ممر السيق الضيق، لتنبثق أمامه فجأة واجهة الخزنة المنحوتة بأناقة في الصخر، أيقونة البتراء الخالدة.`,zh:`佩特拉位于约旦南部的崎岖山区，曾是繁荣的纳巴泰王国的首都。其独特的建筑雕凿于粉红色砂岩之中，因此得名"玫瑰红城市"。\n\n游客通过狭窄的西克峡谷进入城市，突然间宏伟的卡兹尼神殿雕凿于岩石中的正面映入眼帘，成为佩特拉永恒的标志。`},
+    quote:{ar:'مدينة نُحتت في قلب الصخر وعشعشت في قلب التاريخ',zh:'一座雕刻于岩石心脏的城市，栖居于历史的核心'},
+    quoteSrc:{ar:'— مستكشف أثري',zh:'— 考古探险家'},
+    facts:{ar:['اكتشف الرحالة يوهان بوركهارت البتراء عام 1812م','يعني اسم "البتراء" باليونانية "الصخرة"','الخزنة ارتفاعها 40 متراً ونُحتت من الصخر الحي','ازدهرت كمركز تجاري يربط الشرق بالغرب','أكثر من 85% من مبانيها لا يزال تحت الأرض'],zh:['1812年，旅行家约翰·布克哈特发现了佩特拉','佩特拉"在希腊语中意为"岩石"','卡兹尼神殿高40米，从活岩石中雕凿而成','作为连接东西方的贸易枢纽而繁荣','超过85%的建筑仍埋于地下']},
+    info:{ar:[['الموقع','معان، الأردن'],['المنشئون','الأنباط'],['التاريخ','400 ق.م — 100 م'],['التسجيل','يونسكو 1985'],['الزيارة','6ص — 6م'],['الميزة','ليالي البتراء بالشموع']],zh:[['位置','约旦马安'],['建造者','纳巴泰人'],['历史','公元前400年至公元100年'],['列入','联合国教科文组织1985年'],['参观时间','上午6时至下午6时'],['特色','烛光佩特拉之夜']]},
+    timeline:{ar:[{y:'400 ق.م',e:'تأسيس المستوطنة النبطية'},{y:'100 م',e:'ذروة ازدهار البتراء'},{y:'106 م',e:'ضمها للإمبراطورية الرومانية'},{y:'1812 م',e:'إعادة اكتشافها'},{y:'1985 م',e:'إدراجها في يونسكو'}],zh:[{y:'公元前400年',e:'建立纳巴泰定居点'},{y:'公元100年',e:'佩特拉达到繁荣顶峰'},{y:'公元106年',e:'并入罗马帝国'},{y:'1812年',e:'重新被发现'},{y:'1985年',e:'列入联合国教科文组织名录'}]},
+    gallery:['https://images.unsplash.com/photo-1548013146-72479768bada?w=600&q=80','https://images.unsplash.com/photo-1504512485720-7d83a16ee930?w=600&q=80','https://images.unsplash.com/photo-1555993539-1732b0258235?w=600&q=80']
+  },
+  {
+    id:'colosseum', cat:'greco', tall:true,
+    glyph:'𓅓', catLabel:{ar:'روما القديمة',zh:'古罗马'},
+    era:{ar:'الإمبراطورية الرومانية — 70 م',zh:'罗马帝国 — 公元70年'},
+    title:{ar:'الكولوسيوم الروماني',zh:'罗马竞技场'},
+    loc:{ar:'روما، إيطاليا',zh:'罗马，意大利'},
+    meta:[{v:{ar:'50K',zh:'5万'},l:{ar:'متفرج',zh:'观众'}},{v:{ar:'80',zh:'80'},l:{ar:'مدخلاً',zh:'出入口'}}],
+    heroImg:'https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=1600&q=90',
+    stats:[{icon:'🏟',v:{ar:'50,000',zh:'50,000'},l:{ar:'متفرج',zh:'观众'}},{icon:'📏',v:{ar:'188م',zh:'188米'},l:{ar:'الطول',zh:'长度'}},{icon:'🚪',v:{ar:'80',zh:'80'},l:{ar:'مدخلاً',zh:'出入口'}},{icon:'📅',v:{ar:'70م',zh:'公元70年'},l:{ar:'تاريخ البناء',zh:'建造年份'}}],
+    desc:{ar:`يقف الكولوسيوم شامخاً في قلب روما القديمة، شاهداً على عظمة الحضارة الرومانية. بُني في عهد الأسرة الفلافية ليكون أكبر مدرّج في العالم القديم.\n\nيُدهش المهندسون المعاصرون حين يتأملون تقنياته المتقدمة، فقد كان مزوّداً بشبكة صرف صحي، وممرات متعددة، وآليات رفع متطورة.`,zh:`罗马斗兽场巍然屹立于古罗马的心脏地带，见证着罗马文明的伟大。它建于弗拉维王朝时期，成为古代世界最大的圆形剧场。\n\n现代工程师们对其先进技术叹为观止——它配备了排水系统、多层走廊和复杂的升降机械。`},
+    quote:{ar:'طالما قام الكولوسيوم قامت روما، وإذا سقط سقطت روما',zh:'只要斗兽场屹立，罗马就永存；若斗兽场倒塌，罗马也将随之消逝'},
+    quoteSrc:{ar:'— البابا بيدا القديم',zh:'— 古代学者比德'},
+    facts:{ar:['يعتقد المؤرخون أن أكثر من 500 ألف إنسان لقوا حتفهم فيه','كانت بعض المباريات تمتد لأيام متتالية','صُنع من خرسانة وحجارة وطوب ورخام','كان يُغطّى بستارة "الفيلاريوم" لحماية الجمهور','استُخدم لاحقاً حجر مقلع لبناء قصور روما'],zh:['历史学家认为超过50万人在此丧生','一些比赛持续数日不停','由混凝土、石头、砖块和大理石建成','曾覆盖"维拉里乌姆"巨型遮阳篷','后来被用作采石场来建造罗马宫殿']},
+    info:{ar:[['الموقع','وسط روما، إيطاليا'],['المنشئون','الأسرة الفلافية'],['التاريخ','70–80 م'],['الطاقة','50,000–80,000 متفرج'],['التسجيل','يونسكو 1980'],['التصميم','بيضاوي 188×156م']],zh:[['位置','意大利罗马市中心'],['建造者','弗拉维王朝'],['建造时间','公元70–80年'],['容量','50,000至80,000名观众'],['列入','联合国教科文组织1980年'],['设计','椭圆形 188×156米']]},
+    timeline:{ar:[{y:'70 م',e:'الشروع في بنائه بأمر فسباسيان'},{y:'80 م',e:'افتتاحه بمهرجان 100 يوم'},{y:'523 م',e:'آخر مباريات الجلادين'},{y:'1349 م',e:'تضرره بزلزال كبير'},{y:'1980 م',e:'إدراجه في يونسكو'}],zh:[{y:'公元70年',e:'韦斯巴芗皇帝下令开始建造'},{y:'公元80年',e:'举行为期100天的开幕庆典'},{y:'公元523年',e:'最后一次有记录的角斗士比赛'},{y:'1349年',e:'遭强烈地震破坏'},{y:'1980年',e:'列入联合国教科文组织名录'}]},
+    gallery:['https://images.unsplash.com/photo-1555993539-1732b0258235?w=600&q=80','https://images.unsplash.com/photo-1548013146-72479768bada?w=600&q=80','https://images.unsplash.com/photo-1539768942893-daf53e448371?w=600&q=80']
+  },
+  {
+    id:'parthenon', cat:'greco',
+    glyph:'𓊪', catLabel:{ar:'اليونان القديمة',zh:'古希腊'},
+    era:{ar:'اليونان القديمة — 447 ق.م',zh:'古希腊 — 公元前447年'},
+    title:{ar:'معبد البارثينون',zh:'帕特农神庙'},
+    loc:{ar:'أثينا، اليونان',zh:'雅典，希腊'},
+    meta:[{v:{ar:'46',zh:'46'},l:{ar:'عموداً',zh:'柱子'}},{v:{ar:'447ق.م',zh:'公元前447年'},l:{ar:'البناء',zh:'建造年份'}}],
+    heroImg:'https://images.unsplash.com/photo-1555993539-1732b0258235?w=1600&q=90',
+    stats:[{icon:'🏛',v:{ar:'46',zh:'46'},l:{ar:'عموداً رخامياً',zh:'大理石柱'}},{icon:'📏',v:{ar:'69.5م',zh:'69.5米'},l:{ar:'الطول',zh:'长度'}},{icon:'🗿',v:{ar:'2470+',zh:'2470+'},l:{ar:'سنة',zh:'年历史'}},{icon:'🌍',v:'UNESCO',l:{ar:'تراث عالمي',zh:'世界遗产'}}],
+    desc:{ar:`يُجسّد البارثينون ذروة الفن المعماري الإغريقي، ويقع على قمة أكروبوليس في أثينا، مُهيمناً بجلاله على المدينة منذ القرن الخامس قبل الميلاد.\n\nشُيّد تكريماً للإلهة أثينا، ويُعدّ تحفةً هندسية، إذ استُعيض فيه عن الخطوط المستقيمة بخطوط منحنية طفيفة لتصحيح الوهم البصري.`,zh:`帕特农神庙代表着希腊建筑艺术的巅峰，坐落于雅典卫城顶部，自公元前五世纪起便以其庄严气势俯瞰全城。\n\n它是为祭祀雅典娜女神而建的，是一件工程杰作——以微弯的曲线代替直线，通过视错觉创造出完美的视觉效果。`},
+    quote:{ar:'البارثينون ليس مجرد معبد، بل تجسيد للعقل الإنساني في أسمى صوره',zh:'帕特农不仅仅是一座神庙，更是人类智慧最崇高形式的体现'},
+    quoteSrc:{ar:'— مؤرخ فني',zh:'— 艺术史学家'},
+    facts:{ar:['لا يوجد خط أفقي مستقيم تماماً في هيكله','أُعيد تحويله لكنيسة ثم مسجد عبر القرون','دمّر انفجار عام 1687م الجزء الأكبر منه','قطعه الرخامية محفوظة في المتحف البريطاني','بُني من رخام بنتيليكوس الأبيض الناصع'],zh:['其结构中没有完全水平的直线','历经数百年先后被改建为教堂和清真寺','1687年的爆炸摧毁了其大部分内部结构','大理石雕塑保存于大英博物馆','由洁白的彭泰利孔大理石建成']},
+    info:{ar:[['الموقع','أكروبوليس، أثينا'],['المعماريون','إيكتينوس وكاليكراتيس'],['التاريخ','447–432 ق.م'],['المادة','رخام بنتيليكوس'],['التسجيل','يونسكو 1987'],['الطراز','دوريك كلاسيكي']],zh:[['位置','雅典卫城'],['建筑师','伊克提诺斯和卡利克拉特斯'],['建造时间','公元前447–432年'],['材料','彭泰利孔大理石'],['列入','联合国教科文组织1987年'],['风格','古典多立克式']]},
+    timeline:{ar:[{y:'447 ق.م',e:'وضع حجر الأساس في عهد بريكليس'},{y:'432 ق.م',e:'اكتمال المعبد'},{y:'267 م',e:'نهبه على يد القبائل الغازية'},{y:'1687 م',e:'تدميره جزئياً بانفجار'},{y:'1987 م',e:'إدراجه في يونسكو'}],zh:[{y:'公元前447年',e:'伯里克利时代奠基'},{y:'公元前432年',e:'神庙竣工'},{y:'公元267年',e:'遭入侵部落劫掠'},{y:'1687年',e:'爆炸造成部分损毁'},{y:'1987年',e:'列入联合国教科文组织名录'}]},
+    gallery:['https://images.unsplash.com/photo-1579606032821-4e6161c81bd3?w=600&q=80','https://images.unsplash.com/photo-1527490087278-9c75be0b8052?w=600&q=80','https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?w=600&q=80']
+  },
+  {
+    id:'alhambra', cat:'islamic',
+    glyph:'𓋴', catLabel:{ar:'الحضارة الإسلامية',zh:'伊斯兰文明'},
+    era:{ar:'الحضارة الإسلامية — 1238 م',zh:'伊斯兰文明 — 1238年'},
+    title:{ar:'قصر الحمراء',zh:'阿尔罕布拉宫'},
+    loc:{ar:'غرناطة، إسبانيا',zh:'格拉纳达，西班牙'},
+    meta:[{v:{ar:'35هك',zh:'35公顷'},l:{ar:'المساحة',zh:'面积'}},{v:{ar:'800+',zh:'800+'},l:{ar:'سنة',zh:'年历史'}}],
+    heroImg:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=90',
+    stats:[{icon:'🌹',v:{ar:'35 هكتار',zh:'35公顷'},l:{ar:'المساحة',zh:'面积'}},{icon:'🕌',v:{ar:'800+',zh:'800+'},l:{ar:'سنة من الجمال',zh:'年美丽'}},{icon:'✨',v:{ar:'5000+',zh:'5000+'},l:{ar:'نقش مكرر',zh:'重复图案'}},{icon:'🌍',v:'UNESCO',l:{ar:'تراث عالمي',zh:'世界遗产'}}],
+    desc:{ar:`يقع قصر الحمراء على ربوة مشرفة على غرناطة، ويُمثّل آخر معاقل الحضارة الإسلامية في الأندلس. شيّده ملوك بنو نصر وبلغ أوج ازدهاره في القرن الرابع عشر.\n\nتأسر الزائر دقة الزخارف الجصية، وأناقة الأقواس والمقرنصات، وعذوبة خرير المياه في الصحون والبحيرات.`,zh:`阿尔罕布拉宫坐落于俯瞰格拉纳达的山丘上，代表着伊斯兰文明在安达卢西亚的最后堡垒。由纳斯里德王朝国王建造，在14世纪达到鼎盛。\n\n精美的灰泥装饰、优雅的拱门和钟乳石穹顶，以及庭院和水池中流水淙淙的声音令游客倾倒。`},
+    quote:{ar:'أعطني البكاء كامرأة على ملك لم تحافظ عليه كرجل',zh:'用女人的眼泪哭泣你无法以男儿身守护的王国'},
+    quoteSrc:{ar:'— مقولة منسوبة لأم آخر ملوك غرناطة',zh:'— 据称出自格拉纳达末代国王之母'},
+    facts:{ar:['يضم أكثر من 5000 نقش من آيات قرآنية وأشعار','المقرنصات ألهمت المعماريين لأكثر من 6 قرون','صحن الأسود يضم معادلات رياضية دقيقة لتوزيع المياه','كان يضم حمامات وحدائق ومكتبة وسوقاً','الشاعر ابن الخطيب استمد قصائده من جدرانه'],zh:['包含超过5000个古兰经经文和诗歌图案','钟乳石穹顶启发了600多年的建筑师','狮子庭院包含精确的数学配水公式','曾设有浴室、花园、图书馆和市场','诗人伊本·赫提卜从其墙壁中汲取灵感']},
+    info:{ar:[['الموقع','غرناطة، إسبانيا'],['المنشئون','بنو نصر'],['التاريخ','1238–1358 م'],['المادة','رخام وجص وخشب الأرز'],['التسجيل','يونسكو 1984'],['الطراز','المعمار الإسلامي الأندلسي']],zh:[['位置','西班牙格拉纳达'],['建造者','纳斯里德王朝'],['建造时间','1238–1358年'],['材料','大理石、灰泥、雪松木'],['列入','联合国教科文组织1984年'],['风格','安达卢西亚伊斯兰建筑']]},
+    timeline:{ar:[{y:'1238 م',e:'تأسيس القصر بأمر محمد الأول'},{y:'1333 م',e:'بناء قصر الأسود في عهد يوسف الأول'},{y:'1492 م',e:'سقوط غرناطة وتسليم القصر'},{y:'1526 م',e:'بناء قصر شارلكان داخله'},{y:'1984 م',e:'إدراجه في يونسكو'}],zh:[{y:'1238年',e:'穆罕默德一世下令建造宫殿'},{y:'1333年',e:'优素福一世统治下建造狮子宫'},{y:'1492年',e:'格拉纳达陷落，宫殿被移交'},{y:'1526年',e:'在其内部修建查理五世宫'},{y:'1984年',e:'列入联合国教科文组织名录'}]},
+    gallery:['https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=600&q=80','https://images.unsplash.com/photo-1579606032821-4e6161c81bd3?w=600&q=80','https://images.unsplash.com/photo-1527490087278-9c75be0b8052?w=600&q=80']
+  },
+  {
+    id:'greatwall', cat:'asia', wide:true,
+    glyph:'𓐍', catLabel:{ar:'آسيا',zh:'亚洲'},
+    era:{ar:'الصين القديمة — 221 ق.م',zh:'古代中国 — 公元前221年'},
+    title:{ar:'سور الصين العظيم',zh:'万里长城'},
+    loc:{ar:'الصين',zh:'中国'},
+    meta:[{v:{ar:'21196كم',zh:'21196公里'},l:{ar:'الطول',zh:'长度'}},{v:{ar:'2000+',zh:'2000+'},l:{ar:'سنة',zh:'年历史'}}],
+    heroImg:'https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=1600&q=90',
+    stats:[{icon:'🐉',v:{ar:'21196كم',zh:'21196公里'},l:{ar:'الطول الإجمالي',zh:'总长度'}},{icon:'⛰',v:{ar:'2000+',zh:'2000+'},l:{ar:'سنة من العمر',zh:'年历史'}},{icon:'👷',v:{ar:'1 مليون+',zh:'100万+'},l:{ar:'عامل بناء',zh:'建造工人'}},{icon:'🌍',v:'UNESCO',l:{ar:'تراث عالمي',zh:'世界遗产'}}],
+    desc:{ar:`يمتد سور الصين العظيم عبر آلاف الكيلومترات من السهول والجبال والصحاري الصينية، ويُعدّ أكبر مشروع هندسي في التاريخ الإنساني. بدأ بناؤه في عهد الإمبراطور الأول تشين شي هوانغ حوالي 221 قبل الميلاد.\n\nشُيّد في البداية للحماية من غزوات القبائل الشمالية، ثم طوّر وامتد عبر سلالات متعاقبة. يُمثّل رمزاً للحضارة الصينية وإرادتها الإنسانية الفريدة.`,zh:`长城绵延数千公里穿越中国的平原、山脉和沙漠，是人类历史上最伟大的工程项目。始建于秦始皇统治时期，约公元前221年。\n\n最初为抵御北方游牧民族的入侵而建，后经历代王朝不断扩建延伸。长城是中华文明和独特人类意志力的象征。`},
+    quote:{ar:'من لم يصل إلى سور الصين العظيم لم يكن بطلاً',zh:'不到长城非好汉'},
+    quoteSrc:{ar:'— ماو تسي تونغ',zh:'— 毛泽东'},
+    facts:{ar:['يكفي مواد البناء المستخدمة فيه لبناء سور حول خط الاستواء','مات مئات الآلاف من العمال أثناء بنائه ودُفنوا في داخله','الجزء الأكثر شهرة هو قسم مينغ المبني بين 1368-1644م','لا يمكن رؤيته من الفضاء بالعين المجردة رغم الشائعة الشهيرة','يمر عبر 15 مقاطعة صينية مختلفة'],zh:['建造所用材料足以在赤道周围建一道墙','数十万工人在建造过程中死亡并被埋入其中','最著名的部分是明代城墙，建于1368-1644年','尽管有传言，但实际上无法从太空用肉眼看到','穿越中国15个不同省份']},
+    info:{ar:[['الموقع','شمال الصين'],['المنشئ','الإمبراطور تشين شي هوانغ وخلفاؤه'],['التاريخ','221 ق.م — 1644 م'],['الطول','21,196 كيلومتر'],['التسجيل','يونسكو 1987'],['الارتفاع','يصل إلى 9 أمتار']],zh:[['位置','中国北部'],['建造者','秦始皇及其继承者'],['建造时间','公元前221年至1644年'],['长度','21,196公里'],['列入','联合国教科文组织1987年'],['高度','可达9米']]},
+    timeline:{ar:[{y:'221 ق.م',e:'بدء البناء في عهد الإمبراطور الأول'},{y:'206 ق.م',e:'توسيع السور في عهد سلالة هان'},{y:'1368 م',e:'أكبر مرحلة بناء في عهد سلالة مينغ'},{y:'1644 م',e:'انتهاء آخر مراحل البناء الكبرى'},{y:'1987 م',e:'إدراجه في قائمة يونسكو'}],zh:[{y:'公元前221年',e:'秦始皇统治下开始建造'},{y:'公元前206年',e:'汉朝扩建长城'},{y:'1368年',e:'明朝最大规模的建造阶段'},{y:'1644年',e:'最后主要建造阶段结束'},{y:'1987年',e:'列入联合国教科文组织名录'}]},
+    gallery:['https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=600&q=80','https://images.unsplash.com/photo-1548013146-72479768bada?w=600&q=80','https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?w=600&q=80']
+  },
+  {
+    id:'machu', cat:'americas',
+    glyph:'𓎼', catLabel:{ar:'الأمريكتان',zh:'美洲'},
+    era:{ar:'حضارة الإنكا — 1450 م',zh:'印加文明 — 1450年'},
+    title:{ar:'ماتشو بيتشو',zh:'马丘比丘'},
+    loc:{ar:'كوسكو، بيرو',zh:'库斯科，秘鲁'},
+    meta:[{v:{ar:'2430م',zh:'2430米'},l:{ar:'الارتفاع',zh:'海拔'}},{v:{ar:'UNESCO',zh:'UNESCO'},l:{ar:'تراث',zh:'遗产'}}],
+    heroImg:'https://images.unsplash.com/photo-1526392060635-9d6019884377?w=1600&q=90',
+    stats:[{icon:'🌿',v:{ar:'2430م',zh:'2430米'},l:{ar:'الارتفاع فوق البحر',zh:'海拔高度'}},{icon:'🏛',v:{ar:'570+',zh:'570+'},l:{ar:'سنة من العمر',zh:'年历史'}},{icon:'🪨',v:{ar:'150+',zh:'150+'},l:{ar:'مبنى أثري',zh:'古建筑'}},{icon:'🌍',v:'UNESCO',l:{ar:'تراث عالمي',zh:'世界遗产'}}],
+    desc:{ar:`يجلس ماتشو بيتشو بفخر فوق قمة جبلية شاهقة في جبال الأنديز بالبيرو، محاطاً بالغيوم والأودية السحيقة. بنته حضارة الإنكا حوالي عام 1450م ثم هجرته فجأة.\n\nلا يزال العلماء يتساءلون عن الغرض الحقيقي من هذه المدينة الجبلية الغامضة؛ هل كانت مقراً ملكياً أم مركزاً دينياً أم مرصداً فلكياً؟`,zh:`马丘比丘骄傲地坐落于秘鲁安第斯山脉的崇山峻岭之上，被云雾和深邃山谷所环绕。由印加文明建于约1450年，后被突然遗弃。\n\n学者们仍在探寻这座神秘山城的真实用途——它是皇家居所、宗教中心，还是天文观测台？`},
+    quote:{ar:'ماتشو بيتشو سرّ الجبال الذي لم يُحَلّ بعد',zh:'马丘比丘是尚未破解的山中之谜'},
+    quoteSrc:{ar:'— هيرام بينغهام، مكتشفها',zh:'— 海勒姆·宾厄姆，发现者'},
+    facts:{ar:['بناؤه بدون استخدام عجلة أو مواد رابطة أو حيوانات جر','أحجاره متطابقة لدرجة لا تستطيع شفرة تمر بينها','اكتشفه العالم هيرام بينغهام عام 1911م فقط','مبنى على خطوط الزلازل لكنه لم يتهدم','يحتوي على أكثر من 3000 درجة داخله'],zh:['建造时不使用轮子、黏合剂或役畜','石块契合如此精密，刀片无法插入缝隙','直到1911年海勒姆·宾厄姆才将其介绍给世界','建于地震带上但从未倒塌','内部有超过3000级台阶']},
+    info:{ar:[['الموقع','كوسكو، بيرو'],['المنشئ','حضارة الإنكا — باتشاكوتي'],['التاريخ','حوالي 1450 م'],['الارتفاع','2430 متر فوق البحر'],['التسجيل','يونسكو 1983'],['الاكتشاف','هيرام بينغهام 1911م']],zh:[['位置','秘鲁库斯科'],['建造者','印加文明 — 帕恰库蒂'],['建造时间','约1450年'],['海拔','海拔2430米'],['列入','联合国教科文组织1983年'],['发现','海勒姆·宾厄姆1911年']]},
+    timeline:{ar:[{y:'1450 م',e:'بناء ماتشو بيتشو في عهد الإمبراطور باتشاكوتي'},{y:'1532 م',e:'الغزو الإسباني وهجر المدينة'},{y:'1911 م',e:'اكتشافه على يد هيرام بينغهام'},{y:'1983 م',e:'إدراجه في قائمة يونسكو'},{y:'2007 م',e:'انتخابه عجيبة العالم الجديدة'}],zh:[{y:'1450年',e:'帕恰库蒂皇帝统治下建造马丘比丘'},{y:'1532年',e:'西班牙征服，城市被遗弃'},{y:'1911年',e:'海勒姆·宾厄姆重新发现'},{y:'1983年',e:'列入联合国教科文组织名录'},{y:'2007年',e:'当选世界新七大奇迹'}]},
+    gallery:['https://images.unsplash.com/photo-1526392060635-9d6019884377?w=600&q=80','https://images.unsplash.com/photo-1504512485720-7d83a16ee930?w=600&q=80','https://images.unsplash.com/photo-1548013146-72479768bada?w=600&q=80']
+  },
+  {
+    id:'babylon', cat:'mesopotamia',
+    glyph:'𓉐', catLabel:{ar:'بلاد الرافدين',zh:'美索不达米亚'},
+    era:{ar:'بابل — 600 ق.م',zh:'巴比伦 — 公元前600年'},
+    title:{ar:'مدينة بابل القديمة',zh:'古巴比伦城'},
+    loc:{ar:'الحلة، العراق',zh:'希拉，伊拉克'},
+    meta:[{v:{ar:'2600+',zh:'2600+'},l:{ar:'سنة',zh:'年历史'}},{v:{ar:'UNESCO',zh:'UNESCO'},l:{ar:'2019',zh:'2019'}}],
+    heroImg:'https://images.unsplash.com/photo-1548013146-72479768bada?w=1600&q=90',
+    stats:[{icon:'🦁',v:{ar:'2600+',zh:'2600+'},l:{ar:'سنة من العمر',zh:'年历史'}},{icon:'🌿',v:{ar:'إحدى',zh:'其中一'},l:{ar:'عجائب الدنيا',zh:'世界奇迹'}},{icon:'🏛',v:{ar:'بوابة عشتار',zh:'伊什塔尔门'},l:{ar:'الأيقونة',zh:'标志'}},{icon:'🌍',v:'UNESCO',l:{ar:'تراث 2019',zh:'2019年遗产'}}],
+    desc:{ar:`كانت بابل من أعظم مدن العالم القديم، وعاصمة الإمبراطورية البابلية في عصرها الذهبي. تقع على ضفاف نهر الفرات في العراق، وتتضمن بقايا بوابة عشتار المذهلة وطريق المواكب.\n\nيُنسب إليها أحد عجائب الدنيا السبع — حدائق بابل المعلقة — وإن كان وجودها التاريخي لا يزال موضع جدل بين الباحثين.`,zh:`巴比伦曾是古代世界最伟大的城市之一，也是其鼎盛时期巴比伦帝国的首都。位于伊拉克幼发拉底河畔，保存着令人惊叹的伊什塔尔门遗址和仪式大道。\n\n据说七大奇迹之一的空中花园就在这里——尽管其历史存在仍是学界争议的话题。`},
+    quote:{ar:'من يبكي على أطلال بابل يبكي على مجد الإنسانية كله',zh:'哭泣巴比伦废墟者，是在为全人类的辉煌而哭泣'},
+    quoteSrc:{ar:'— مؤرخ عراقي',zh:'— 伊拉克历史学家'},
+    facts:{ar:['بوابة عشتار مُزيّنة بتنانين وثيران من الطوب المزجج الأزرق','كان برج بابل مرجعاً للقرآن الكريم والكتاب المقدس','الملك نبوخذ نصر الثاني حكمها في أوج مجدها','قانون حمورابي أقدم قانون مكتوب في التاريخ صدر منها','حجمها كان يُقارن بمدينة لندن في العصور الوسطى'],zh:['伊什塔尔门饰有蓝色釉砖制成的龙和公牛','巴别塔在《圣经》和古兰经中均有记载','尼布甲尼撒二世在其鼎盛时期统治这里','汉谟拉比法典——历史上最早的成文法典——发源于此','其规模可与中世纪的伦敦相媲美']},
+    info:{ar:[['الموقع','الحلة، بابل، العراق'],['أبرز الحكام','نبوخذ نصر الثاني'],['الفترة الذهبية','605–562 ق.م'],['الأثر الأشهر','بوابة عشتار'],['التسجيل','يونسكو 2019'],['الموقع الحالي','متحف برلين — بوابة عشتار']],zh:[['位置','伊拉克希拉省巴比伦'],['著名统治者','尼布甲尼撒二世'],['黄金时期','公元前605–562年'],['最著名遗迹','伊什塔尔门'],['列入','联合国教科文组织2019年'],['现藏地','柏林博物馆 — 伊什塔尔门']]},
+    timeline:{ar:[{y:'1895 ق.م',e:'تأسيس بابل كمملكة مستقلة'},{y:'1754 ق.م',e:'حمورابي يُصدر أول قانون مكتوب في التاريخ'},{y:'605 ق.م',e:'نبوخذ نصر الثاني يحكم بابل في عصرها الذهبي'},{y:'539 ق.م',e:'الفتح الفارسي لبابل في عهد قورش الكبير'},{y:'2019 م',e:'إدراجها في قائمة التراث العالمي'}],zh:[{y:'公元前1895年',e:'建立巴比伦王国'},{y:'公元前1754年',e:'汉谟拉比颁布历史上第一部成文法典'},{y:'公元前605年',e:'尼布甲尼撒二世统治巴比伦黄金时代'},{y:'公元前539年',e:'居鲁士大帝波斯征服巴比伦'},{y:'2019年',e:'列入世界遗产名录'}]},
+    gallery:['https://images.unsplash.com/photo-1527490087278-9c75be0b8052?w=600&q=80','https://images.unsplash.com/photo-1539768942893-daf53e448371?w=600&q=80','https://images.unsplash.com/photo-1504512485720-7d83a16ee930?w=600&q=80']
+  },
+  {
+    id:'pompeii', cat:'greco',
+    glyph:'𓄿', catLabel:{ar:'الإمبراطورية الرومانية',zh:'罗马帝国'},
+    era:{ar:'روما القديمة — 79 م',zh:'古罗马 — 公元79年'},
+    title:{ar:'مدينة بومبي',zh:'庞贝城'},
+    loc:{ar:'نابولي، إيطاليا',zh:'那不勒斯，意大利'},
+    meta:[{v:{ar:'79م',zh:'公元79年'},l:{ar:'الثوران',zh:'火山爆发'}},{v:{ar:'UNESCO',zh:'UNESCO'},l:{ar:'تراث',zh:'遗产'}}],
+    heroImg:'https://images.unsplash.com/photo-1555993539-1732b0258235?w=1600&q=90',
+    stats:[{icon:'🌋',v:{ar:'79م',zh:'公元79年'},l:{ar:'ثوران فيزوف',zh:'维苏威火山爆发'}},{icon:'🏘',v:{ar:'11000',zh:'11000'},l:{ar:'ساكن وقت الكارثة',zh:'灾难时的居民'}},{icon:'⏰',v:{ar:'25 ساعة',zh:'25小时'},l:{ar:'مدة الثوران',zh:'喷发持续时间'}},{icon:'🌍',v:'UNESCO',l:{ar:'تراث عالمي',zh:'世界遗产'}}],
+    desc:{ar:`بومبي مدينة رومانية دُفنت تحت رماد بركان فيزوف عام 79 ميلادياً، وظلت مطمورة لقرون حتى اكتُشفت من جديد عام 1748م. تُعدّ كبسولة زمنية فريدة للحياة الرومانية في القرن الأول الميلادي.\n\nحفظ الرماد البركاني كل شيء في حالته الأصلية: المنازل والمحال والجداريات والطعام، بل وأجساد السكان أنفسهم.`,zh:`庞贝是一座罗马城市，公元79年被维苏威火山的火山灰掩埋，几个世纪后的1748年才被重新发现。它是公元一世纪罗马生活的独特时间胶囊。\n\n火山灰保存了一切原始状态：房屋、商铺、壁画、食物，甚至居民的身体。`},
+    quote:{ar:'بومبي ليست مدينة ماتت — بل مدينة جُمِّدت في الزمن',zh:'庞贝不是一座死去的城市——而是一座被时间冻结的城市'},
+    quoteSrc:{ar:'— عالم آثار إيطالي',zh:'— 意大利考古学家'},
+    facts:{ar:['اكتُشفت عام 1748م بشكل عرضي أثناء أعمال حفر للقناة','يغطي الموقع الأثري مساحة 66 هكتاراً','الجصيات الجافة تُظهر أشكال الضحايا بدقة مذهلة','لا يزال 30% من المدينة غير مكتشف حتى اليوم','اكتُشف أكثر من 1500 جثة حُفظت بشكل مذهل'],zh:['1748年在挖掘运河时偶然发现','考古遗址覆盖66公顷','干灰浆显示出令人惊讶的详细受害者形象','至今仍有30%的城市未被发掘','发现了超过1500具保存完好的尸体']},
+    info:{ar:[['الموقع','نابولي، إيطاليا'],['الكارثة','ثوران فيزوف 79 م'],['السكان','حوالي 11,000 شخص'],['الاكتشاف','1748 م'],['التسجيل','يونسكو 1997'],['الحالة','تُستكشف جزئياً']],zh:[['位置','意大利那不勒斯'],['灾难','公元79年维苏威火山喷发'],['人口','约11,000人'],['发现年份','1748年'],['列入','联合国教科文组织1997年'],['现状','部分正在发掘中']]},
+    timeline:{ar:[{y:'79 م',e:'ثوران فيزوف وطمر المدينة في الرماد'},{y:'1748 م',e:'اكتشاف المدينة المطمورة بشكل عرضي'},{y:'1863 م',e:'جوزيبي فيوريلي يبتكر تقنية الجصيات للحفاظ على الضحايا'},{y:'1997 م',e:'إدراجها في قائمة يونسكو'},{y:'2018 م',e:'اكتشاف متجر قديم في حالة ممتازة'}],zh:[{y:'公元79年',e:'维苏威火山爆发，城市被火山灰掩埋'},{y:'1748年',e:'偶然重新发现这座被掩埋的城市'},{y:'1863年',e:'朱塞佩·菲奥雷利发明灰浆技术保存受害者'},{y:'1997年',e:'列入联合国教科文组织名录'},{y:'2018年',e:'发现保存完好的古代餐厅'}]},
+    gallery:['https://images.unsplash.com/photo-1579606032821-4e6161c81bd3?w=600&q=80','https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=600&q=80','https://images.unsplash.com/photo-1539768942893-daf53e448371?w=600&q=80']
+  },
+  {
+    id:'karnak', cat:'egypt',
+    glyph:'𓀀', catLabel:{ar:'مصر القديمة',zh:'古埃及'},
+    era:{ar:'مصر القديمة — 2055 ق.م',zh:'古埃及 — 公元前2055年'},
+    title:{ar:'معابد الكرنك',zh:'卡纳克神庙'},
+    loc:{ar:'الأقصر، مصر',zh:'卢克索，埃及'},
+    meta:[{v:{ar:'100هك',zh:'100公顷'},l:{ar:'المساحة',zh:'面积'}},{v:{ar:'134',zh:'134'},l:{ar:'عموداً',zh:'巨柱'}}],
+    heroImg:'https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?w=1600&q=90',
+    stats:[{icon:'🏺',v:{ar:'100هكتار',zh:'100公顷'},l:{ar:'المساحة',zh:'面积'}},{icon:'🏛',v:{ar:'134',zh:'134'},l:{ar:'عموداً ضخماً',zh:'巨型柱子'}},{icon:'📅',v:{ar:'4000+',zh:'4000+'},l:{ar:'سنة من العمر',zh:'年历史'}},{icon:'🌍',v:'UNESCO',l:{ar:'تراث عالمي',zh:'世界遗产'}}],
+    desc:{ar:`يُعدّ مجمع الكرنك في مدينة الأقصر أكبر مجمع معبدي قائم في العالم. بُني وجُدّد عبر ما يزيد على 2000 سنة من قِبل فراعنة مصر المتعاقبين، تكريماً للإله آمون الأكبر.\n\nقاعة الأعمدة العملاقة وحدها تضم 134 عموداً ضخماً، وتُعدّ من أعجوبة الهندسة المعمارية الفرعونية التي لا مثيل لها في تاريخ البشرية.`,zh:`卢克索的卡纳克神庙建筑群是世界上现存最大的神庙综合体。由历代埃及法老历经2000多年建造和修缮，以供奉最高神阿蒙。\n\n仅巨柱大厅就包含134根巨型石柱，是无与伦比的法老建筑工程奇迹。`},
+    quote:{ar:'الكرنك ليس معبداً — الكرنك هو مدينة للآلهة',zh:'卡纳克不是神庙——卡纳克是众神之城'},
+    quoteSrc:{ar:'— عالم مصريات فرنسي',zh:'— 法国埃及学家'},
+    facts:{ar:['استغرق بناء مجمع الكرنك أكثر من 2000 عام','يمكن إدخال كاتدرائية نوتردام عشر مرات داخله','محوره الرئيسي يتوافق مع شروق الشمس وقت الانقلاب الشتوي','كان يُديره آلاف الكهنة والعمال في أوج ازدهاره','اكتُشف فيه أكثر من 700 تمثال ومسلة'],zh:['卡纳克建筑群历时超过2000年建成','可以将巴黎圣母院塞入其中十次','其主轴与冬至日出方向一致','鼎盛时期由数千名祭司和工人管理','发现了700多座雕像和方尖碑']},
+    info:{ar:[['الموقع','الأقصر، مصر العليا'],['أبرز البنائين','رمسيس الثاني وحتشبسوت'],['الفترة','2055 ق.م — 30 م'],['المساحة','100 هكتار'],['التسجيل','يونسكو 1979'],['الإله','آمون — ملك الآلهة']],zh:[['位置','上埃及卢克索'],['主要建造者','拉美西斯二世和哈特谢普苏特'],['时期','公元前2055年至公元30年'],['面积','100公顷'],['列入','联合国教科文组织1979年'],['供奉神灵','阿蒙——众神之王']]},
+    timeline:{ar:[{y:'2055 ق.م',e:'بداية بناء معبد آمون في الكرنك'},{y:'1479 ق.م',e:'الملكة حتشبسوت تُشيّد مسلاتها الشهيرة'},{y:'1279 ق.م',e:'رمسيس الثاني يضيف توسعات ضخمة'},{y:'323 ق.م',e:'الإسكندر الأكبر يزوره ويُقدم قرابين'},{y:'1979 م',e:'إدراجه ضمن يونسكو مع الأقصر'}],zh:[{y:'公元前2055年',e:'开始在卡纳克建造阿蒙神庙'},{y:'公元前1479年',e:'哈特谢普苏特女王竖立著名方尖碑'},{y:'公元前1279年',e:'拉美西斯二世添加大规模扩建'},{y:'公元前323年',e:'亚历山大大帝访问并献祭'},{y:'1979年',e:'与卢克索一起列入联合国教科文组织名录'}]},
+    gallery:['https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?w=600&q=80','https://images.unsplash.com/photo-1527490087278-9c75be0b8052?w=600&q=80','https://images.unsplash.com/photo-1572252009286-268acec5ca0a?w=600&q=80']
+  },
+  {
+    id:'chichen', cat:'americas',
+    glyph:'𓁿', catLabel:{ar:'الأمريكتان',zh:'美洲'},
+    era:{ar:'حضارة المايا — 600 م',zh:'玛雅文明 — 公元600年'},
+    title:{ar:'تشيتشن إيتزا',zh:'奇琴伊察'},
+    loc:{ar:'يوكاتان، المكسيك',zh:'尤卡坦，墨西哥'},
+    meta:[{v:{ar:'30م',zh:'30米'},l:{ar:'ارتفاع الهرم',zh:'金字塔高度'}},{v:{ar:'UNESCO',zh:'UNESCO'},l:{ar:'تراث',zh:'遗产'}}],
+    heroImg:'https://images.unsplash.com/photo-1512813195386-6cf811ad3542?w=1600&q=90',
+    stats:[{icon:'🐍',v:{ar:'30م',zh:'30米'},l:{ar:'ارتفاع الهرم',zh:'金字塔高度'}},{icon:'📅',v:{ar:'365',zh:'365'},l:{ar:'درجة تمثل أيام السنة',zh:'级代表年天数'}},{icon:'🌙',v:{ar:'1200+',zh:'1200+'},l:{ar:'سنة من العمر',zh:'年历史'}},{icon:'🌍',v:'UNESCO',l:{ar:'تراث عالمي',zh:'世界遗产'}}],
+    desc:{ar:`تشيتشن إيتزا كانت إحدى أعظم مدن حضارة المايا، وتقع في شبه جزيرة يوكاتان بالمكسيك. هرم El Castillo الشهير فيها مُصمّم بدقة فلكية مذهلة.\n\nفي الاعتدالين الربيعي والخريفي، تسقط أشعة الشمس بطريقة تُشكّل خيال ثعبان متموّج ينحدر على جوانب الهرم — برهان على عبقرية المايا الفلكية.`,zh:`奇琴伊察曾是玛雅文明最伟大的城市之一，位于墨西哥尤卡坦半岛。著名的El Castillo金字塔以惊人的天文精确度设计。\n\n在春分和秋分时分，阳光以特定方式落下，在金字塔侧面形成一条波动的蛇形阴影——这证明了玛雅人卓越的天文才能。`},
+    quote:{ar:'المايا لم يكتشفوا الزمن — بل اخترعوا طريقة لفهمه',zh:'玛雅人没有发现时间——他们发明了理解时间的方式'},
+    quoteSrc:{ar:'— باحثة في علم الفلك القديم',zh:'— 古天文学研究员'},
+    facts:{ar:['الهرم يعمل كتقويم شمسي متكامل وفعّال','العلماء اكتشفوا هرماً آخر داخل الهرم الرئيسي','وقت الانقلاب تبدو ظلال الهرم كثعبان ينزل من السماء','اختيرت عجيبة العالم الجديدة عام 2007م','تضم ملعباً لكرة القدم الأقدم في أمريكا'],zh:['金字塔作为完整有效的太阳历运转','科学家在主金字塔内发现了另一座金字塔','至点时分，金字塔的阴影看似一条从天而降的蛇','2007年当选世界新七大奇迹','包含美洲最古老的球类运动场']},
+    info:{ar:[['الموقع','يوكاتان، المكسيك'],['الحضارة','المايا والتولتك'],['الفترة','600–1200 م'],['أبرز المباني','هرم El Castillo'],['التسجيل','يونسكو 1988'],['الاختيار','عجيبة العالم الجديدة 2007']],zh:[['位置','墨西哥尤卡坦'],['文明','玛雅和托尔特克'],['时期','公元600–1200年'],['标志建筑','El Castillo金字塔'],['列入','联合国教科文组织1988年'],['评选','2007年世界新七大奇迹']]},
+    timeline:{ar:[{y:'600 م',e:'ازدهار تشيتشن إيتزا كعاصمة مايا'},{y:'900 م',e:'التأثير التولتيكي يُعيد تشكيل المدينة'},{y:'1200 م',e:'هجرها السكان لأسباب غامضة'},{y:'1517 م',e:'أول تواصل مع المستكشفين الإسبان'},{y:'1988 م',e:'إدراجها في قائمة يونسكو'}],zh:[{y:'公元600年',e:'奇琴伊察作为玛雅首都繁荣兴盛'},{y:'公元900年',e:'托尔特克影响重塑了城市'},{y:'1200年',e:'居民因不明原因遗弃城市'},{y:'1517年',e:'与西班牙探险者的第一次接触'},{y:'1988年',e:'列入联合国教科文组织名录'}]},
+    gallery:['https://images.unsplash.com/photo-1512813195386-6cf811ad3542?w=600&q=80','https://images.unsplash.com/photo-1526392060635-9d6019884377?w=600&q=80','https://images.unsplash.com/photo-1504512485720-7d83a16ee930?w=600&q=80']
+  }
+];
+
+const civs = [
+  {glyph:'𓇯',name:{ar:'مصر الفرعونية',zh:'法老时代埃及'},era:{ar:'3100 – 30 ق.م',zh:'公元前3100–30年'},desc:{ar:'أرست الحضارة المصرية القديمة أسس العلوم والطب والرياضيات وبنت آثاراً لا تزال تُبهر العالم بعد آلاف السنين. من الفراعنة إلى الكتابة الهيروغليفية، تركت إرثاً لا يُضاهى في تاريخ البشرية.',zh:'古埃及文明奠定了科学、医学和数学的基础，建造了数千年后仍令世界叹为观止的纪念碑。从法老到象形文字，留下了人类历史上无与伦比的遗产。'},sites:{ar:['أهرامات الجيزة','الكرنك','أبو سمبل'],zh:['吉萨金字塔','卡纳克神庙','阿布辛贝']}},
+  {glyph:'𓉐',name:{ar:'بلاد الرافدين',zh:'美索不达米亚'},era:{ar:'3500 – 539 ق.م',zh:'公元前3500–539年'},desc:{ar:'بين نهري دجلة والفرات وُلدت أولى الكتابات وأقدم القوانين وأعظم المدن. السومريون والأكاديون والبابليون والآشوريون شكّلوا ملامح الحضارة الإنسانية الأولى.',zh:'在底格里斯河和幼发拉底河之间诞生了最早的文字、最古老的法律和最伟大的城市。苏美尔人、阿卡德人、巴比伦人和亚述人塑造了人类文明的最初面貌。'},sites:{ar:['بابل','أور','نينوى'],zh:['巴比伦','乌尔','尼尼微']}},
+  {glyph:'𓊪',name:{ar:'اليونان القديمة',zh:'古希腊'},era:{ar:'800 – 31 ق.م',zh:'公元前800–31年'},desc:{ar:'منحت الحضارة الإغريقية العالم الديمقراطية والفلسفة والمسرح والأولمبياد. أفلاطون وأرسطو وسقراط أسسوا التفكير الغربي، بينما بنى معماريوهم روائع لا تزال تُلهم.',zh:'希腊文明赋予了世界民主、哲学、戏剧和奥林匹克运动会。柏拉图、亚里士多德和苏格拉底奠定了西方思想的基础，而其建筑师们建造的杰作至今仍启迪人心。'},sites:{ar:['البارثينون','دلفي','أوليمبيا'],zh:['帕特农神庙','德尔菲','奥林匹亚']}},
+  {glyph:'𓋴',name:{ar:'الحضارة الإسلامية',zh:'伊斯兰文明'},era:{ar:'622 – 1600 م',zh:'622–1600年'},desc:{ar:'في عصرها الذهبي، أضاءت الحضارة الإسلامية العالم بعلوم الفلك والطب والرياضيات والعمارة. من بغداد إلى الأندلس، بنى المسلمون مراكز علمية وتحفاً معمارية لا تزال تُبهر.',zh:'在黄金时代，伊斯兰文明以天文学、医学、数学和建筑学照亮了世界。从巴格达到安达卢西亚，穆斯林建造了至今仍令人叹为观止的学术中心和建筑杰作。'},sites:{ar:['الحمراء','آيا صوفيا','قبة الصخرة'],zh:['阿尔罕布拉宫','圣索非亚大教堂','圆顶清真寺']}},
+  {glyph:'𓐍',name:{ar:'الحضارة الصينية',zh:'中华文明'},era:{ar:'2100 ق.م — الحاضر',zh:'公元前2100年至今'},desc:{ar:'تُعدّ الحضارة الصينية من أقدم وأعرق الحضارات في التاريخ. اخترع الصينيون الورق والطباعة والبارود والبوصلة، وبنوا سور الصين العظيم وأبدعوا في الفنون لآلاف السنين.',zh:'中华文明是世界上最古老、最悠久的文明之一。中国人发明了纸张、印刷术、火药和指南针，建造了万里长城，并在数千年间在艺术方面取得了卓越成就。'},sites:{ar:['سور الصين العظيم','المدينة المحرمة','تيرا كوتا'],zh:['万里长城','故宫','兵马俑']}},
+  {glyph:'𓎼',name:{ar:'حضارة الإنكا والمايا',zh:'印加与玛雅文明'},era:{ar:'2000 ق.م — 1500 م',zh:'公元前2000年—1500年'},desc:{ar:'في أمريكا قبل الكولومبية، بنت حضارتا الإنكا والمايا إمبراطوريات شاسعة بمعارف فلكية متقدمة ومعمار مبهر. ماتشو بيتشو وتشيتشن إيتزا شواهد على عبقريتهم الفريدة.',zh:'在前哥伦布时代的美洲，印加和玛雅文明建立了广阔的帝国，拥有先进的天文知识和令人叹为观止的建筑。马丘比丘和奇琴伊察是其独特天才的见证。'},sites:{ar:['ماتشو بيتشو','تشيتشن إيتزا','تيكال'],zh:['马丘比丘','奇琴伊察','蒂卡尔']}}
+];
+
+const museums = [
+  {n:{ar:'المتحف المصري بالقاهرة',zh:'开罗埃及博物馆'},loc:{ar:'القاهرة، مصر',zh:'埃及，开罗'},desc:{ar:'يضم أكبر مجموعة من الآثار المصرية القديمة في العالم، تتجاوز 120,000 قطعة أثرية، من بينها كنوز الفرعون توتنخامون الذهبية الشهيرة.',zh:'收藏世界上最大的古埃及文物藏品，超过120,000件文物，包括著名的图坦卡蒙金色宝藏。'},tags:{ar:['مصر القديمة','توتنخامون','المومياوات'],zh:['古埃及','图坦卡蒙','木乃伊']}},
+  {n:{ar:'المتحف البريطاني',zh:'大英博物馆'},loc:{ar:'لندن، المملكة المتحدة',zh:'英国，伦敦'},desc:{ar:'من أكبر المتاحف في العالم، يضم ثمانية ملايين قطعة من حضارات الكرة الأرضية، من بينها حجر رشيد وآثار نينوى والقطع الرخامية للبارثينون.',zh:'世界上最大的博物馆之一，收藏来自全球文明的800万件文物，包括罗塞塔石碑、尼尼微文物和帕特农大理石雕塑。'},tags:{ar:['حجر رشيد','نينوى','متعدد الحضارات'],zh:['罗塞塔石碑','尼尼微','多元文明']}},
+  {n:{ar:'متحف اللوفر',zh:'卢浮宫博物馆'},loc:{ar:'باريس، فرنسا',zh:'法国，巴黎'},desc:{ar:'أكبر متحف في العالم وأكثره زيارةً، يضم روائع مصرية ويونانية وإسلامية ورومانية. تتصدره تحفة ليوناردو دا فينشي الشهيرة "الموناليزا".',zh:'世界上最大、参观人数最多的博物馆，收藏埃及、希腊、伊斯兰和罗马艺术珍品。以达芬奇的名作《蒙娜丽莎》为镇馆之宝。'},tags:{ar:['فنون عالمية','الموناليزا','متعدد'],zh:['世界艺术','蒙娜丽莎','多元']}},
+  {n:{ar:'المتحف الوطني الصيني',zh:'中国国家博物馆'},loc:{ar:'بكين، الصين',zh:'中国，北京'},desc:{ar:'أكبر متحف في العالم من حيث المساحة، يضم أكثر من 1.4 مليون قطعة أثرية تروي تاريخ الحضارة الصينية عبر خمسة آلاف عام متواصلة.',zh:'世界上面积最大的博物馆，收藏超过140万件文物，讲述中华文明5000年的连续历史。'},tags:{ar:['الحضارة الصينية','5000 سنة','بكين'],zh:['中华文明','5000年','北京']}},
+  {n:{ar:'متحف برلين — جزيرة المتاحف',zh:'柏林博物馆岛'},loc:{ar:'برلين، ألمانيا',zh:'德国，柏林'},desc:{ar:'تضم بوابة عشتار الأصلية من بابل وآثار مصرية نادرة ويونانية وبيزنطية. جُمّعت في جزيرة أثرية فريدة في قلب برلين مُدرجة في يونسكو.',zh:'收藏来自巴比伦的原版伊什塔尔门及珍贵的埃及、希腊和拜占庭文物。聚集于柏林市中心一座独特的考古岛上，已列入联合国教科文组织名录。'},tags:{ar:['بوابة عشتار','مصر','بابل'],zh:['伊什塔尔门','埃及','巴比伦']}},
+  {n:{ar:'متحف الحضارة الإسلامية — الشارقة',zh:'沙迦伊斯兰文明博物馆'},loc:{ar:'الشارقة، الإمارات',zh:'阿联酋，沙迦'},desc:{ar:'أحد أبرز المتاحف المتخصصة في الفن والحضارة الإسلامية، يضم مخطوطات ومجوهرات وأسلحة وأعمالاً فنية من ذهبي الحضارة الإسلامية.',zh:'伊斯兰艺术和文明领域最杰出的博物馆之一，收藏来自伊斯兰文明黄金时代的手稿、珠宝、武器和艺术品。'},tags:{ar:['الإسلامية','مخطوطات','فنون'],zh:['伊斯兰','手稿','艺术']}}
+];
+
+// ===== RENDER =====
+function renderSites(filter='all') {
+  const l = currentLang;
+  const filtered = filter === 'all' ? sites : sites.filter(s => s.cat === filter);
+  const grid = document.getElementById('sitesGrid');
+  grid.innerHTML = filtered.map((s,i) => `
+    <div class="site-card${s.wide?' wide':''}${s.tall?' tall':''}" onclick="openDetail('${s.id}')">
+      <img class="card-img" src="${s.heroImg}" alt="${typeof s.title === 'object' ? s.title[l] : s.title}" loading="lazy">
+      <div class="card-overlay"></div>
+      <span class="card-glyph">${s.glyph}</span>
+      <div class="card-arrow">↗</div>
+      <span class="card-cat">${typeof s.catLabel === 'object' ? s.catLabel[l] : s.catLabel}</span>
+      <div class="card-content">
+        <span class="card-era">${typeof s.era === 'object' ? s.era[l] : s.era}</span>
+        <h3 class="card-title">${typeof s.title === 'object' ? s.title[l] : s.title}</h3>
+        <p class="card-loc">📍 ${typeof s.loc === 'object' ? s.loc[l] : s.loc}</p>
+        <div class="card-meta">
+          ${s.meta.map(m=>`<div><div class="meta-v">${typeof m.v==='object'?m.v[l]:m.v}</div><div class="meta-l">${typeof m.l==='object'?m.l[l]:m.l}</div></div>`).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderCivs() {
+  const l = currentLang;
+  document.getElementById('civCards').innerHTML = civs.map(c=>`
+    <div class="civ-card">
+      <span class="civ-glyph">${c.glyph}</span>
+      <div class="civ-name">${c.name[l]}</div>
+      <div class="civ-era">${c.era[l]}</div>
+      <p class="civ-desc">${c.desc[l]}</p>
+      <div class="civ-sites">${c.sites[l].map(s=>`<span class="civ-site-tag">${s}</span>`).join('')}</div>
+      <div class="civ-bar"></div>
+    </div>
+  `).join('');
+}
+
+function renderMuseums() {
+  const l = currentLang;
+  document.getElementById('museumList').innerHTML = museums.map((m,i)=>`
+    <div class="museum-card">
+      <div class="museum-num">0${i+1}</div>
+      <div class="museum-info">
+        <div class="museum-name">${m.n[l]}</div>
+        <div class="museum-loc">📍 ${m.loc[l]}</div>
+        <p class="museum-desc">${m.desc[l]}</p>
+        <div>${m.tags[l].map(t=>`<span class="museum-tag">${t}</span>`).join('')}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openDetail(id) {
+  const s = sites.find(x=>x.id===id);
+  const l = currentLang;
+  const t = T[l];
+  const overlay = document.getElementById('detailOverlay');
+
+  const tl = typeof s.title==='object'?s.title[l]:s.title;
+  const era = typeof s.era==='object'?s.era[l]:s.era;
+  const descTxt = typeof s.desc==='object'?s.desc[l]:s.desc;
+  const parts = descTxt.split('\n\n');
+  const quoteTxt = typeof s.quote==='object'?s.quote[l]:s.quote;
+  const quoteSrc = typeof s.quoteSrc==='object'?s.quoteSrc[l]:s.quoteSrc;
+  const facts = typeof s.facts==='object'?s.facts[l]:s.facts;
+  const info = typeof s.info==='object'?s.info[l]:s.info;
+  const tl2 = typeof s.timeline==='object'?s.timeline[l]:s.timeline;
+
+  document.getElementById('detailContent').innerHTML = `
+    <div class="detail-hero">
+      <img class="detail-hero-img" src="${s.heroImg}" alt="${tl}">
+      <div class="detail-hero-overlay"></div>
+      <div class="detail-hero-content">
+        <span class="detail-era-tag">${era}</span>
+        <h1 class="detail-title">${tl}</h1>
+      </div>
+    </div>
+    <div class="detail-body">
+      <div class="detail-stats">
+        ${s.stats.map(st=>`
+          <div class="stat-box">
+            <span class="stat-icon">${st.icon}</span>
+            <span class="stat-value">${typeof st.v==='object'?st.v[l]:st.v}</span>
+            <span class="stat-label">${typeof st.l==='object'?st.l[l]:st.l}</span>
+          </div>`).join('')}
+      </div>
+      <div class="detail-grid">
+        <div class="detail-description">
+          <h3>${t.historical}</h3>
+          <p>${parts[0]}</p>
+          <p>${parts[1]||''}</p>
+          <div class="quote-block">
+            <p class="quote-text">${quoteTxt}</p>
+            <p class="quote-source">${quoteSrc}</p>
+          </div>
+          <h3>${t.amazing}</h3>
+          <ul class="detail-facts">${facts.map(f=>`<li>${f}</li>`).join('')}</ul>
+        </div>
+        <div class="detail-sidebar">
+          <h3>${t.siteInfo}</h3>
+          <table class="info-table">${info.map(([k,v])=>`<tr><td>${k}</td><td>${v}</td></tr>`).join('')}</table>
+          <div class="timeline-section">
+            <h3 style="margin-top:2rem">${t.timeline}</h3>
+            ${tl2.map(item=>`
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div><div class="timeline-year">${item.y||item.year}</div><div class="timeline-event">${item.e||item.event}</div></div>
+              </div>`).join('')}
+          </div>
+        </div>
+      </div>
+      <p class="gallery-title">${t.gallery}</p>
+      <div class="detail-gallery">${s.gallery.map(img=>`<img class="gallery-img" src="${img}" loading="lazy">`).join('')}</div>
+    </div>
+  `;
+  overlay.classList.add('active');
+  overlay.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDetail() {
+  document.getElementById('detailOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// ===== SECTION NAV =====
+function showSection(name) {
+  document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sec-'+name).classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(a=>a.classList.remove('active'));
+  const idx = {home:0,civs:1,museums:2,about:3}[name];
+  document.querySelectorAll('.nav-link')[idx]?.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  // trigger fade-ins
+  setTimeout(()=>{
+    document.querySelectorAll('#sec-'+name+' .fade-in').forEach(el=>el.classList.add('visible'));
+  },100);
+  if(name==='civs') renderCivs();
+  if(name==='museums') renderMuseums();
+}
+
+// ===== LANGUAGE =====
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.setAttribute('data-lang', lang);
+  document.documentElement.setAttribute('lang', lang);
+  document.documentElement.setAttribute('dir', lang==='ar'?'rtl':'ltr');
+
+  document.querySelectorAll('.lang-btn').forEach(b=>{
+    b.classList.toggle('active', b.textContent.trim()===(lang==='ar'?'عربي':'中文'));
+  });
+
+  // Update logo
+  document.getElementById('logo-text').textContent = lang==='ar'?'أثـر':'遗 迹';
+  document.getElementById('logo-sub').textContent = lang==='ar'?'حضارات خالدة':'永恒的文明';
+
+  // Update nav links
+  document.querySelectorAll('[data-ar]').forEach(el=>{
+    if(el.tagName==='A'||el.classList.contains('nav-link')) {
+      el.textContent = lang==='ar'?el.dataset.ar:el.dataset.zh;
+    }
+  });
+
+  // Update all data-ar / data-zh elements
+  document.querySelectorAll('[data-ar]').forEach(el=>{
+    if(el.tagName!=='BUTTON') {
+      el.textContent = lang==='ar'?el.dataset.ar:el.dataset.zh;
+    }
+  });
+
+  // Filter buttons
+  document.querySelectorAll('.filter-btn').forEach(b=>{
+    b.textContent = lang==='ar'?b.dataset.ar:b.dataset.zh;
+  });
+
+  // Footer
+  document.getElementById('footer-left').textContent = lang==='ar'?'© 2024 أثر — جميع الحقوق محفوظة':'© 2024 Athar — 版权所有';
+  document.getElementById('footer-right').textContent = lang==='ar'?'صُنع بشغف للحضارة':'为文明而生';
+
+  // Re-render grid
+  const activeFilter = document.querySelector('.filter-btn.active')?.dataset.filter||'all';
+  renderSites(activeFilter);
+
+  // Re-render current section
+  const activeSec = document.querySelector('.page-section.active')?.id?.replace('sec-','');
+  if(activeSec==='civs') renderCivs();
+  if(activeSec==='museums') renderMuseums();
+}
+
+// ===== INIT =====
+renderSites();
+
+// Filter
+document.getElementById('filterBar').addEventListener('click', e=>{
+  const btn = e.target.closest('.filter-btn');
+  if(!btn) return;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSites(btn.dataset.filter);
+});
+
+// Cursor
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e=>{ cursor.style.left=e.clientX+'px'; cursor.style.top=e.clientY+'px'; });
+document.addEventListener('click', ()=>{ cursor.style.transform='translate(-50%,-50%) scale(0.7)'; setTimeout(()=>cursor.style.transform='',150); });
+
+// Hover cursor
+document.addEventListener('mouseover', e=>{
+  if(e.target.closest('a,button,.site-card,.filter-btn,.gallery-img,.civ-card,.museum-card')) cursor.classList.add('hover');
+  else cursor.classList.remove('hover');
+});
+
+// Scroll effects
+const header = document.getElementById('mainHeader');
+window.addEventListener('scroll',()=>header.classList.toggle('scrolled',window.scrollY>60));
+
+// Scroll animations
+const obs = new IntersectionObserver(entries=>entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); }),{threshold:0.1});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+
+// Hero CTA
+document.querySelector('.hero-cta')?.addEventListener('click', e=>{
+  e.preventDefault();
+  document.getElementById('sites').scrollIntoView({behavior:'smooth'});
+});
+
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDetail(); });
+</script>
+</body>
+</html>
